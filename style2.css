@@ -1,0 +1,28 @@
+body, html {
+margin:0px;
+padding:0px;
+}
+#maket {
+width:1200px;
+margin:0 auto;
+}
+#header{
+background-color:#C0C000;
+}
+#left{
+background-color:silver ;
+width:800px;
+float:left;
+}
+#footer{
+background-color:#989898 ;
+}
+#content{
+
+}
+.footer {
+	text-align: center;
+}
+.enter {
+    white-space: pre;
+}
