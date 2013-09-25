@@ -23,10 +23,17 @@ $limit_page = ceil($all_news / 10);
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <link href="style2.css" rel="stylesheet" type="text/css">
+<style>
+   body {
+    background-image: url(img/45.jpg); 
+    background-color: #c7b39b;
+
+   }
+  </style>
 </head>
-<body>
+<body text="white" link="red" vlink="red" alink="red" >
 <div id="maket">
-<div id="header"></div>
+<div id="header"><img src="img/f_4b1c3b607c0f6.jpg" width="1000"></div>
 <div id="left">
 <form method = "post">
 		  <select name = "current_page">
@@ -75,20 +82,31 @@ $limit_page = ceil($all_news / 10);
 				} 
 ?>
 				</div>
-<div id="footer"  class="footer" align="center"><font color="red">••InternetDevels••</font></div>
+
 <div id="content">
 		<?php if(!empty($_SESSION['user'])) {
-		echo 'You logged in login '.$_SESSION['user'].'
-	|<a href = "exit.php"> Exit </a>|';
-	echo '|<a href="addnews.php"> Add news </a>|';
-	echo '|<a href="newsedit.php"> Edit news </a>|';
-	echo '|<a href="index.php"> Home </a>|';
+		echo '<h3>  You logged in login '.$_SESSION['user'].'!</h3>';
+		?>
+
+<ul id="my_menu">
+	<li><a href="index.php"><span>Home</span></a></li>
+	<li><a href="addnews.php"><span>Add News</span></a></li>
+	<li><a href="newsedit.php"><span>Edit News</span></a></li>
+	<li><a href="exit.php"><span>Exit</span></a></li>
+
+	
+
+</ul>
+		<?
+	
 		} 
 		else {
 		include 'enter.php';
 		}
 ?> 
 </div>
+
 </div>
 </body>
 </html>
+

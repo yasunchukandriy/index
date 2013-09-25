@@ -10,6 +10,7 @@ $database_handle->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <link href="style.css" rel="stylesheet" type="text/css">
+
 </head>
 <body>
 <div id="maket">
@@ -82,3 +83,4 @@ echo '<br><a href="index.php">Home</a>';
 </div>
 </body>
 </html>
+

@@ -8,32 +8,45 @@ $database_handle=new PDO("mysql:host=localhost;dbname=user",'root','');
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<link href="style.css" rel="stylesheet" type="text/css">
+<link href="style2.css" rel="stylesheet" type="text/css">
+<link href="login-box.css" rel="stylesheet" type="text/css" />
+<style>
+   body {
+    background-image: url(img/45.jpg); 
+    background-color: #c7b39b;
+   }
+  </style>
 </head>
-<body>
+<body text="white"  link="red" vlink="red" alink="red" >
 <div id="maket">
-<div id="header"></div>
+<div id="header"><img src="img/f_4b1c3b607c0f6.jpg" width="1000"></div>
 <div id="left">
 	<?php
 echo '<br><p align = center><strong> EDIT NEWS</strong></p>';
 $q = $database_handle->prepare("SELECT * FROM news ORDER BY ID");
 $q->execute();
 while($data = $q->fetch(PDO::FETCH_ASSOC)) {
-	echo '<i>'.$data['title'].'</i> | <a href="newsedit.php?id='.$data['id'].'">edit</a> | <a href="newsedit.php?del='.$data['id'].'">del</a><br>';
+	echo '<p><b>'.$data['title'].'</b> | <a href="newsedit.php?id='.$data['id'].'">edit</a> | <a href="newsedit.php?del='.$data['id'].'" >del</a><br></p>';
 	}
 if(!empty($_GET['id'])){
 	$q = $database_handle->prepare("SELECT * FROM news WHERE id = '$_GET[id]'");
 	$q->execute();
 	$data = $q->fetch(PDO::FETCH_ASSOC);
 	}
+if(empty($_GET['del'])) {
+	
+	}
+	
 if(!empty($_GET['del'])) {
+	echo '| <a href="newsedit.php?del='.$data['id'].'">Yes</a> |';
+	echo '| <a href="newsedit.php">No</a> |';
 	$q = $database_handle->prepare("DELETE FROM news WHERE id = '$_GET[del]'");
 	$q->execute();
 	}
 	?>
 <form id='forma' action='' method='post'>
-<p>Title<br /><input type='text' name='title' value= <?=$data["title"] ?> ></p>
-<p>Text<br /><textarea rows='10' cols='45' name='text'><?=$data['text']?></textarea></p>
+<p>Title<br /><input type='text' name='title' class="form-login1" value= <?=$data["title"] ?> ></p>
+<p>Text<br /><textarea rows='10' cols='45' name='text' class="form-login2"><?=$data['text']?></textarea></p>
 <p><input type='submit' name='submit' value='Update'>
 <br></p></form>
 <?php
@@ -44,18 +57,25 @@ if(!empty($_POST['title']) AND !empty($_POST['title'])) {
 	$q->execute();
 	unset($_POST);
 	echo 'News Update<br>';
-
 	}
 ?>
 </div>
-<div id="footer" align="center"><font color="red">••InternetDevels••</font></div>
 <div id="content">
-<?php  if(!empty($_SESSION['user'])) {
-		echo 'You logged in login '.$_SESSION['user'].'
-	|<a href = "exit.php"> Exit </a>|';
-	echo '<br>|<a href="index.php"> Home </a>|';
+		<?php if(!empty($_SESSION['user'])) {
+		echo '<h3>  You logged in login '.$_SESSION['user'].'!</h3>';
+		?>
+<ul id="my_menu">
+	<li><a href="index.php"><span>Home</span></a></li>
+	<li><a href="addnews.php"><span>Add News</span></a></li>
+	<li><a href="exit.php"><span>Exit</span></a></li>
+</ul>
+		<?
 		} 
-?> </div>
+		else {
+		include 'enter.php';
+		}
+?> 
+</div>
 </div>
 </body>
 </html>

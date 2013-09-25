@@ -8,16 +8,24 @@ $database_handle=new PDO("mysql:host=localhost;dbname=user",'root','');
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<link href="style.css" rel="stylesheet" type="text/css">
+<link href="style2.css" rel="stylesheet" type="text/css">
+<link href="login-box.css" rel="stylesheet" type="text/css" />
+<style>
+   body {
+    background-image: url(img/45.jpg); 
+    background-color: #c7b39b;
+
+   }
+  </style>
 </head>
-<body>
+<body text="white">
 <div id="maket">
-<div id="header"></div>
+<div id="header"><img src="img/f_4b1c3b607c0f6.jpg" width="1000"></div>
 <div id="left">
 	<br><p align = center><strong>ADD NEWS</strong>
 	<form id='forma' action='' method='post' enctype='multipart/form-data'>
-	<p>Title<br /><input type='text' name='title'></p>
-	<p>Text<br /><textarea rows='10' cols='45' name='text'></textarea></p> Add a picture <br /> <input type='file' name='filename'>
+	<p>Title<br /><input type='text' name='title' class="form-login1"></p>
+	<p>Text<br /><textarea rows='10' cols='45' name='text' class="form-login2"></textarea></p> Add a picture <br /> <input type='file' name='filename'>
 	<br>
 	<p><input type='submit' name='submit' value='Add'><br></p></form>
 	<?
@@ -40,14 +48,33 @@ $database_handle=new PDO("mysql:host=localhost;dbname=user",'root','');
 	}
 	  	   ?>
 </div>
-<div id="footer" align="center"><font color="red">••InternetDevels••</font></div>
+
 <div id="content">
-<?php  if(!empty($_SESSION['user'])) {
-		echo 'You logged in login '.$_SESSION['user'].'
-	|<a href = "exit.php"> Exit </a>|';
-	echo '<br>|<a href="index.php"> Home </a>|';
+		<?php if(!empty($_SESSION['user'])) {
+		echo '<h3>  You logged in login '.$_SESSION['user'].'!</h3>';
+		?>
+
+<ul id="my_menu">
+	<li><a href="index.php"><span>Home</span></a></li>
+	<li><a href="newsedit.php"><span>Edit News</span></a></li>
+	<li><a href="exit.php"><span>Exit</span></a></li>
+</ul>
+		<?
 		} 
-?> </div>
+		else {
+		include 'enter.php';
+		}
+?> 
+</div>
+
 </div>
 </body>
 </html>
+
+
+
+
+
+
+
+

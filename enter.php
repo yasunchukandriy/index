@@ -7,16 +7,21 @@ if(isset($_SESSION['user']) AND isset($_SESSION['pass']))
 	} 
 else {
 ?>
-	<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <meta charset="utf-8"/>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
-<title>Login Box HTML Code - www.PSDGraphics.com</title>
 <link href="login-box.css" rel="stylesheet" type="text/css" />
+<style>
+   body {
+    background-image: url(img/45.jpg); 
+    background-color: #c7b39b;
+   }
+  </style>
 </head>
-<body>
-<div style="padding: 100px 0 0 250px;">
+<body link="red" vlink="#cecece" alink="#ff0000">
+<div >
 <div id="login-box">
 <H2>Login</H2>
 <br />
@@ -35,17 +40,3 @@ else {
 </body>
 </html>
 <html>
-
-<!-- <meta charset="utf-8"/>
-<body>
-
-
-               	<h1>Log</h1>
-	<p>Login<br /><input type='text' name='login'></p>
-	<p>Password<br /><input type='password' name='password'></p>
-	<p><input type='submit' name='submit' value='Log in'>
-	<br></p></form><p><a href='registration.php'>Registration</a></p>
-	
-
-	</body>
-	</html> -->
