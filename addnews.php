@@ -14,7 +14,6 @@ $database_handle=new PDO("mysql:host=localhost;dbname=user",'root','');
    body {
     background-image: url(img/45.jpg); 
     background-color: #c7b39b;
-
    }
   </style>
 </head>
@@ -56,6 +55,8 @@ $database_handle=new PDO("mysql:host=localhost;dbname=user",'root','');
 
 <ul id="my_menu">
 	<li><a href="index.php"><span>Home</span></a></li>
+	<li><a href="profile.php"><span>Profile</span></a></li>
+	<li><a href="edituser.php"><span>Edit User</span></a></li>
 	<li><a href="newsedit.php"><span>Edit News</span></a></li>
 	<li><a href="exit.php"><span>Exit</span></a></li>
 </ul>

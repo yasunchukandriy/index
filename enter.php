@@ -15,12 +15,12 @@ else {
 <link href="login-box.css" rel="stylesheet" type="text/css" />
 <style>
    body {
-    background-image: url(img/45.jpg); 
-    background-color: #c7b39b;
+	background-image: url(img/45.jpg); 
+	background-color: #c7b39b;
    }
   </style>
 </head>
-<body link="red" vlink="#cecece" alink="#ff0000">
+<body link="#cecece" vlink="#cecece" alink="#ff0000">
 <div >
 <div id="login-box">
 <H2>Login</H2>
@@ -31,6 +31,7 @@ else {
 <div id="login-box-name">Password:</div><div id="login-box-field"><input name="password" type="password" class="form-login" title="password" value="" size="30" maxlength="2048" /></div>
 <br />
 <p><input type=image src=/img/login-btn.png  name='submit' value='Log in' alt='Go!' border=0 style="margin-left:150px;">
+<p><b><a href="registration.php" style="margin-left:30px;">Registration</a></b></span></p>
 </div>
 </div>
 </form>

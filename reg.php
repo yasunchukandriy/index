@@ -15,53 +15,30 @@ $database_handle->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
 <body>
 <div id="maket">
 <div id="header"></div>
-<div id="left"><?php 
-		$your_desired_width = 150;
-		echo '<br><p align = center><strong>NEWS</strong></p>';
-	 	$q = $database_handle->prepare("SELECT * FROM news ORDER BY ID");
-	 	$q->execute();
-	 	$q->count();
-
-	 	while($data = $q->fetch(PDO::FETCH_ASSOC)) 
-		{	
-			
-			
-			if (strlen($data['text']) > $your_desired_width) {
-    			$data['text'] = wordwrap($data['text'], $your_desired_width);
-    			$i = strpos($data['text'], "\n");
-    		if ($i) {
-        		$data['text'] = substr($data['text'], 0, $i);
-    			}
-    			}
-			if(!empty($_GET['id'])) {
-				$q = $database_handle->prepare("SELECT * FROM news WHERE id = '$_GET[id]'");
-	 			$q->execute();
-	 			$data = $q->fetch(PDO::FETCH_ASSOC);
-			if (strcmp($data['id'],$a) == 0){	
-				echo '<i><b><h1 align="center">'.$data['title'].'</h1></b></i><p align="center">Added by: '.$data['user'].'       '. date('d M Y H:i:s', $data['date']).'</p><p align="center"><img src="http://'.$_SERVER['HTTP_HOST'].'/img/'.$data['img'].'" height="400" width="600"></p><p align="justify">'.$data['text'].'</p>';
-				}
-				}
-			else {
-				echo '<i><b><h1 align="center">'.$data['title'].'</h1></b></i><p align="center">Added by: '.$data['user'].'       '. date('d M Y H:i:s', $data['date']) .'</p><p align="center"><img src="http://'.$_SERVER['HTTP_HOST'].'/img/'.$data['img'].'" height="400" width="600"></p><p align="center">'.$data['text'].'</i> | <a href="index.php?id='.$data['id'].'">Read more</a></p>';
-				echo '<br />';
-
-			}
-				 
-		}
-				?>
+<div id="left">
 </div>
 <div id="footer" align="center"><font color="red">••InternetDevels••</font></div>
 <div id="content">
-	<? if (!empty($_POST['login']) AND !empty($_POST['password']) AND !empty($_POST['password2']) ){
+	<? if (!empty($_POST['login']) AND !empty($_POST['password']) AND !empty($_POST['password2']) AND !empty($_POST['email']) ){
  	$login1 = $_POST['login'];
-	$log_sql = $database_handle->prepare("SELECT COUNT(*) FROM user WHERE user = '{$login1}'");
+  	$log_sql = $database_handle->prepare("SELECT COUNT(*) FROM user WHERE user = '{$login1}'");
 	$log_sql->execute();
 	$data_exists = $log_sql->fetchColumn();
 	if ($data_exists > 0){
     echo 'Login busy';
-    echo '<br>|<a href="registration.php"> Repeat registration </a>|';
+    echo '<br>|<a href="registration.php"> Repeat registration </a>|'; 
+    exit();
+    }
+    $email1 = $_POST['email'];
+	$email_sql = $database_handle->prepare("SELECT COUNT(*) FROM user WHERE email = '{$email1}'");
+	$email_sql->execute();
+	$data_exists = $email_sql->fetchColumn();
+	if ($data_exists > 0){
+    echo 'Email busy';
+    echo '<br>|<a href="registration.php"> Repeat registration </a>|'; 
     exit();
 	}
+
 	  if($_POST['password'] !== $_POST['password2']) {
 		echo 'Passwords do not match.';
 		echo '|<a href="registration.php"> Repeat registration </a>|';
@@ -69,8 +46,15 @@ $database_handle->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
 	}
 	$login = trim($_POST['login']);
 	$password = md5($_POST['password']);
-	$insert = $database_handle->exec("INSERT INTO user (`user`, `pass`) VALUES ('$login' , '$password')");
-	if($insert) echo 'Registration successful.'; 
+	$email = trim($_POST['email']);
+	$avatar = move_uploaded_file($_FILES["user-icon1"]["jpg"], "./img/".$_FILES["filename"]["name"]);
+	$insert = $database_handle->exec("INSERT INTO user (`user`, `pass`, `email`) VALUES ('$login' , '$password', '$email')");
+	if($insert) { 
+		$_SESSION['user'] = $_POST['login'];
+		$_SESSION['pass'] = $_POST['password'];
+		echo 'Registration successful.'; 
+		}
+
 	}
 else {
 	echo 'You did not fill in all fields.';

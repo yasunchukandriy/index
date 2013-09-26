@@ -50,7 +50,7 @@ if(!empty($_GET['del'])) {
 <p><input type='submit' name='submit' value='Update'>
 <br></p></form>
 <?php
-if(!empty($_POST['title']) AND !empty($_POST['title'])) {
+if(!empty($_POST['title']) AND !empty($_POST['text'])) {
 	$title = trim($_POST['title']);
 	$text = trim($_POST['text']);
 	$q = $database_handle->prepare("UPDATE `news` SET  `title` =  '$_POST[title]', `text` =  '$_POST[text]' WHERE  `id` = $_GET[id]");
@@ -66,6 +66,8 @@ if(!empty($_POST['title']) AND !empty($_POST['title'])) {
 		?>
 <ul id="my_menu">
 	<li><a href="index.php"><span>Home</span></a></li>
+	<li><a href="profile.php"><span>Profile</span></a></li>
+	<li><a href="edituser.php"><span>Edit User</span></a></li>
 	<li><a href="addnews.php"><span>Add News</span></a></li>
 	<li><a href="exit.php"><span>Exit</span></a></li>
 </ul>
