@@ -33,11 +33,9 @@ $database_handle=new PDO("mysql:host=localhost;dbname=user",'root','');
 	<p>Change your email<br /><input type='text' name="changeemail" class="form-login1" value= <?=$data["email"] ?>></p>
 	<p><input type='submit' name='submit' value='Add'><br></p></form>
 <?php
-	if(!empty($_POST['surname']) AND !empty($_POST['name']) AND !empty($_POST['changeemail']) AND ($_FILES["filename"]["size"] < 1024*1*1024)) {
+	if(!empty($_POST['surname']) AND !empty($_POST['name']) AND !empty($_POST['changeemail']) AND ($_FILES["filename"]["size"] < 1024*5*1024)) {
 	if(is_uploaded_file($_FILES["filename"]["tmp_name"])){
-		echo ("The file size exceeds one megabyte");
-     exit;
-     move_uploaded_file($_FILES["filename"]["tmp_name"], "./img/".$_FILES["filename"]["name"]);
+	 move_uploaded_file($_FILES["filename"]["tmp_name"], "./img/".$_FILES["filename"]["name"]);
      echo 'Avatar added<br>';
    } else {
       echo("No avatar");

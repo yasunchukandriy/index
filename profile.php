@@ -26,53 +26,27 @@ $database_handle=new PDO("mysql:host=localhost;dbname=user",'root','');
 	$q->execute();
 	$data = $q->fetch(PDO::FETCH_ASSOC);
 ?>
-	<br><p align = center><strong>EDITING YOUR PROFILE</strong>
-	<form id='forma' action='' method='POST' enctype='multipart/form-data'>
-	<p>Your surname<br /><input type='text' name="surname" class="form-login1" value= <?=$data["username"] ?>></p>
-	<p>Your name<br /><input name="name" class="form-login2" value= <?=$data["name"] ?>></p> Edit Avatar <br /> <input type='file' name='filename'>
-	<p>Change your email<br /><input type='text' name="changeemail" class="form-login1" value= <?=$data["email"] ?>></p>
-	<p><input type='submit' name='submit' value='Add'><br></p></form>
-<?php
-	if(!empty($_POST['surname']) AND !empty($_POST['name']) AND !empty($_POST['changeemail']) AND ($_FILES["filename"]["size"] < 1024*3*1024)) {
-	if(is_uploaded_file($_FILES["filename"]["tmp_name"]))
-   {
-     move_uploaded_file($_FILES["filename"]["tmp_name"], "./img/".$_FILES["filename"]["name"]);
-     echo 'Avatar added<br>';
-   } else {
-      echo("No avatar");
-   }
-	$surname = trim($_POST['surname']);
-	$name = trim($_POST['name']);
-	$email = trim($_POST['changeemail']);
-	$filename = $_FILES["filename"]["name"];
-	$q = $database_handle->prepare("UPDATE `user` SET `email` = '$email', `username` = '$surname', `name` = '$name', `avatar` = '$filename' WHERE `user` = '$_SESSION[user]'");
-	$q->execute();
-		if($q) print('Data add!');
-		exit("<meta http-equiv='refresh' content='0; url= $_SERVER[PHP_SELF]'>");
-}
-?>
-<br><p><strong>CHANGE PASSWORD</strong>
-<form id='forma' action='' method='POST' enctype='multipart/form-data'>
-	<p>New password<br /><input type='password' name="changepassword" class="form-login1" ></p>
-	<p>Repeat new password<br /><input type='password' name="changepassword2" class="form-login1" ></p>
-	<p><input type='submit' name='submit' value='Change'><br></p></form>
+	<p align = center><strong>MY PROFILE</strong>
+	<table cellpadding="20">
+	<tr>
+	<td>
+	<?php
+	echo '<p><img src="http://'.$_SERVER['HTTP_HOST'].'/img/'.$data['avatar'].'" height="150" width="150"></p>';
+	?>
+	</td>
+	<td>
+	<?php
+	echo '<h4><b><p>Surname: '.$data['username'].'</p></b></h4>';
+	echo '<h4><b><p>Name: '.$data['name'].'</p></b></h4>';
+	echo '<h4><b><p>Email: '.$data['email'].'</p></b></h4>';
+	echo '<h4><b><p>Date of Registration: '. date('d M Y H:i:s', $data['datereg']).'</p></b></h4>';
+			
+	?>	
+	</td>
+	</tr>
+	</table>
 
-<?php
-if(!empty($_POST['changepassword']) AND !empty($_POST['changepassword2'])){
 
-$pass = md5(trim($_POST['changepassword']));
-if ($_POST['changepassword'] == $_POST['changepassword2']){
-		$q = $database_handle->prepare("UPDATE `user` SET `pass` = '$pass' WHERE `user` = '$_SESSION[user]'");
-		$q->execute();
-		if($q) print('Password changed');
-		exit("<meta http-equiv='refresh' content='0; url= $_SERVER[PHP_SELF]'>");
-		}
-	else {
-	print('Passwords do not match');
-	exit();
-}
-}
-?>
 </div>
 
 <div id="content">

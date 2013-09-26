@@ -47,8 +47,9 @@ $database_handle->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
 	$login = trim($_POST['login']);
 	$password = md5($_POST['password']);
 	$email = trim($_POST['email']);
-	$avatar = move_uploaded_file($_FILES["user-icon1"]["jpg"], "./img/".$_FILES["filename"]["name"]);
-	$insert = $database_handle->exec("INSERT INTO user (`user`, `pass`, `email`) VALUES ('$login' , '$password', '$email')");
+	$avatar = 'user-icon1.jpg';
+	$datereg = time();
+	$insert = $database_handle->exec("INSERT INTO user (`user`, `pass`, `email`,`avatar`,`datereg`) VALUES ('$login' , '$password', '$email','$avatar','$datereg')");
 	if($insert) { 
 		$_SESSION['user'] = $_POST['login'];
 		$_SESSION['pass'] = $_POST['password'];
