@@ -40,7 +40,7 @@ $database_handle=new PDO("mysql:host=localhost;dbname=user",'root','');
 	echo '<h4><b><p>Name: '.$data['name'].'</p></b></h4>';
 	echo '<h4><b><p>Email: '.$data['email'].'</p></b></h4>';
 	echo '<h4><b><p>Date of Registration: '. date('d M Y H:i:s', $data['datereg']).'</p></b></h4>';
-			
+	echo '<h4><b><p>Login time: '. date('d M Y H:i:s', $data['datelog']).'</p></b></h4>';		
 	?>	
 	</td>
 	</tr>

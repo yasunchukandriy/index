@@ -87,7 +87,7 @@ $limit_page = ceil($all_news / 10);
 				echo '<br>|<a href="index.php"> Log </a>|';
 				session_destroy();
 				session_write_close();
- 
+ 		exit("<meta http-equiv='refresh' content='0; url= index.php'>");
 		} 
 		else {
 		include 'enter.php';
