@@ -17,7 +17,7 @@ $database_handle=new PDO("mysql:host=localhost;dbname=user",'root','');
    }
   </style>
 </head>
-<body text="white">
+<body text="white" link="red" vlink="#cecece" alink="#ff0000">
 <div id="maket">
 <div id="header"><img src="img/f_4b1c3b607c0f6.jpg" width="1000"></div>
 <div id="left">
@@ -35,6 +35,7 @@ $database_handle=new PDO("mysql:host=localhost;dbname=user",'root','');
 	?>
 	</td>
 	<td>
+	<p><input type='submit' name='submit' value='DELETE PROFILE' onclick="if(confirm('Are you sure you want to delete your account?'))location.href='profiledel.php';"><br></p></form>
 	<?php
 	echo '<h4><b><p>Surname: '.$data['username'].'</p></b></h4>';
 	echo '<h4><b><p>Name: '.$data['name'].'</p></b></h4>';

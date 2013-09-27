@@ -49,11 +49,16 @@ $database_handle->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
 	$email = trim($_POST['email']);
 	$avatar = 'user-icon1.jpg';
 	$datereg = time();
-	$insert = $database_handle->exec("INSERT INTO user (`user`, `pass`, `email`,`avatar`,`datereg`) VALUES ('$login' , '$password', '$email','$avatar','$datereg')");
+	$role = 'user';
+	$insert = $database_handle->exec("INSERT INTO user (`user`, `pass`, `email`,`avatar`,`datereg`,`role`) VALUES ('$login' , '$password', '$email','$avatar','$datereg', '$role')");
 	if($insert) { 
 		$_SESSION['user'] = $_POST['login'];
 		$_SESSION['pass'] = $_POST['password'];
+		$datelog = time();
+		$q = $database_handle->prepare("UPDATE `user` SET `datelog` = '$datelog' WHERE `user` = '$_SESSION[user]'");
+		$q->execute();
 		echo 'Registration successful.'; 
+		exit("<meta http-equiv='refresh' content='0; url= index.php'>");
 		}
 
 	}
