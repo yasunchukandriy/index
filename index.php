@@ -82,22 +82,16 @@ $limit_page = ceil($all_news / 10);
 				} 
 ?>
 				</div>
-
 <div id="content">
 		<?php if(!empty($_SESSION['user'])) {
 		echo '<h3>  You logged in login '.$_SESSION['user'].'!</h3>';
 		?>
-
 <ul id="my_menu">
 	<li><a href="index.php"><span>Home</span></a></li>
 	<li><a href="profile.php"><span>Profile</span></a></li>
-	<li><a href="edituser.php"><span>Edit User</span></a></li>
 	<li><a href="addnews.php"><span>Add News</span></a></li>
 	<li><a href="newsedit.php"><span>Edit News</span></a></li>
 	<li><a href="exit.php"><span>Exit</span></a></li>
-
-	
-
 </ul>
 		<?
 	

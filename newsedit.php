@@ -1,7 +1,18 @@
 ﻿<?php
 error_reporting(E_ALL);
 //session_start();
-$database_handle=new PDO("mysql:host=localhost;dbname=user",'root','');
+	if(empty($_SESSION['user'])) {
+		exit();
+		}
+	$database_handle=new PDO("mysql:host=localhost;dbname=user",'root','');
+	$qu = $database_handle->prepare("SELECT * FROM user WHERE `user` = '$_SESSION[user]'");
+	$qu->execute();
+	$role = $qu->fetch(PDO::FETCH_ASSOC);
+	if ($role['role'] == 'user')
+	{
+		print('You do not have access!!');
+		exit('<p><a href="index.php">Go back</a></p>');
+	}
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
 "http://www.w3.org/TR/html4/loose.dtd">
@@ -23,23 +34,30 @@ $database_handle=new PDO("mysql:host=localhost;dbname=user",'root','');
 <div id="left">
 	<?php
 echo '<br><p align = center><strong> EDIT NEWS</strong></p>';
-$q = $database_handle->prepare("SELECT * FROM news ORDER BY ID");
-$q->execute();
-while($data = $q->fetch(PDO::FETCH_ASSOC)) {
+	if ($role['role'] == 'admin')
+	{
+	$q = $database_handle->prepare("SELECT * FROM news ORDER BY ID");
+	$q->execute();
+	while($data = $q->fetch(PDO::FETCH_ASSOC)) {	
 	echo '<p><b>'.$data['title'].'</b> | <a href="newsedit.php?id='.$data['id'].'">edit</a> | <a href="newsedit.php?del='.$data['id'].'" >del</a><br></p>';
 	}
+}
+	if ($role['role'] == 'editor')
+	{
+	$q = $database_handle->prepare("SELECT * FROM user JOIN news WHERE user.user=news.user");
+	$q->execute();
+	while($data = $q->fetch(PDO::FETCH_ASSOC)) {	
+	echo '<p><b>'.$data['title'].'</b> | <a href="newsedit.php?id='.$data['id'].'">edit</a> | <a href="newsedit.php?del='.$data['id'].'" >del</a><br></p>';
+	}
+}
+
 if(!empty($_GET['id'])){
 	$q = $database_handle->prepare("SELECT * FROM news WHERE id = '$_GET[id]'");
 	$q->execute();
 	$data = $q->fetch(PDO::FETCH_ASSOC);
 	}
-if(empty($_GET['del'])) {
-	
-	}
 	
 if(!empty($_GET['del'])) {
-	echo '| <a href="newsedit.php?del='.$data['id'].'">Yes</a> |';
-	echo '| <a href="newsedit.php">No</a> |';
 	$q = $database_handle->prepare("DELETE FROM news WHERE id = '$_GET[del]'");
 	$q->execute();
 	}
@@ -67,7 +85,6 @@ if(!empty($_POST['title']) AND !empty($_POST['text'])) {
 <ul id="my_menu">
 	<li><a href="index.php"><span>Home</span></a></li>
 	<li><a href="profile.php"><span>Profile</span></a></li>
-	<li><a href="edituser.php"><span>Edit User</span></a></li>
 	<li><a href="addnews.php"><span>Add News</span></a></li>
 	<li><a href="exit.php"><span>Exit</span></a></li>
 </ul>

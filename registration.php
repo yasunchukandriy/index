@@ -87,7 +87,6 @@ $limit_page = ceil($all_news / 10);
 <div id="content">
 <div id="login-box">
 <H2>Registration</H2>
-
 <form id='forma' action='reg.php' method='post'>
 <div id="login-box-name" style="margin-top:10px;">Login:</div><div id="login-box-field" ><input name="login" class="form-login" title="login" value="" size="30" maxlength="2048" /></div>
 <div id="login-box-name">Password:</div><div id="login-box-field"><input name="password" type="password" class="form-login" title="password" value="" size="30" maxlength="2048" /></div>
@@ -96,7 +95,6 @@ $limit_page = ceil($all_news / 10);
 <br />
 <b><a href="index.php" style="margin-right:300px;">Log</a></b>
 <p><input type=image src=/img/login-btn.png  name='submit' value='Log in' alt='Go!' border=0 style="margin-left:150px; margin-buttom:300px;">
-
 </div>
 </div>
 </div>

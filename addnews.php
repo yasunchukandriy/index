@@ -1,7 +1,18 @@
 ﻿<?php
 error_reporting(E_ALL);
 //session_start();
-$database_handle=new PDO("mysql:host=localhost;dbname=user",'root','');
+	if(empty($_SESSION['user'])) {
+		exit();
+		}
+	$database_handle=new PDO("mysql:host=localhost;dbname=user",'root','');
+	$q = $database_handle->prepare("SELECT * FROM user WHERE `user` = '$_SESSION[user]'");
+	$q->execute();
+	$data = $q->fetch(PDO::FETCH_ASSOC);
+	if ($data['role'] == 'user')
+	{
+		print('You do not have access!!');
+		exit('<p><a href="index.php">Go back</a></p>');
+	}
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
 "http://www.w3.org/TR/html4/loose.dtd">
@@ -56,7 +67,6 @@ $database_handle=new PDO("mysql:host=localhost;dbname=user",'root','');
 <ul id="my_menu">
 	<li><a href="index.php"><span>Home</span></a></li>
 	<li><a href="profile.php"><span>Profile</span></a></li>
-	<li><a href="edituser.php"><span>Edit User</span></a></li>
 	<li><a href="newsedit.php"><span>Edit News</span></a></li>
 	<li><a href="exit.php"><span>Exit</span></a></li>
 </ul>
@@ -67,15 +77,6 @@ $database_handle=new PDO("mysql:host=localhost;dbname=user",'root','');
 		}
 ?> 
 </div>
-
 </div>
 </body>
 </html>
-
-
-
-
-
-
-
-

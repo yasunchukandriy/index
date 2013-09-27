@@ -1,5 +1,8 @@
 ﻿<?php 
 //session_start();
+if(empty($_SESSION['user'])) {
+		exit();
+		}
 $database_handle=new PDO("mysql:host=localhost;dbname=user",'root','');
 if (!empty($_POST['current_page'])) {
 	$_SESSION['current_page'] = $_POST['current_page'];

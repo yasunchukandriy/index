@@ -9,7 +9,10 @@ $database_handle=new PDO("mysql:host=localhost;dbname=user",'root','');
 	$q = $database_handle->prepare("SELECT * FROM user WHERE user = '$login'");
 	$q->execute();
 	$data = $q->fetch(PDO::FETCH_ASSOC);
-	
+	if ($data['role'] == 'blocked'){
+		echo '<br><a href="index.php">Repeat authorization</a><br>';
+		exit('<h3><font color="red">Your account is blocked!</font></h3>');
+	}
 	if($data['pass'] !== $pass) 
 	{ 
 		echo '<br><a href="index.php">Repeat authorization</a><br>';

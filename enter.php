@@ -1,5 +1,6 @@
 ﻿<?php
 error_reporting(E_ALL);
+
 $database_handle=new PDO("mysql:host=localhost;dbname=user",'root','');
 if(isset($_SESSION['user']) AND isset($_SESSION['pass']))
 	{

@@ -1,6 +1,7 @@
 ﻿<?php
 error_reporting(E_ALL);
 //session_start();
+
 $database_handle=new PDO("mysql:host=localhost;dbname=user",'root','');
 $database_handle->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
 ?>

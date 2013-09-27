@@ -35,8 +35,11 @@ $database_handle=new PDO("mysql:host=localhost;dbname=user",'root','');
 	?>
 	</td>
 	<td>
-	<p><input type='submit' name='submit' value='DELETE PROFILE' onclick="if(confirm('Are you sure you want to delete your account?'))location.href='profiledel.php';"><br></p></form>
+	<p><input type='submit' name='submit' value='DELETE PROFILE' onclick="if(confirm('Are you sure you want to delete your account?'))location.href='profiledel.php';">
+	<input type='submit' name='submit' value='EDIT PROFILE' onclick="location.href='edituser.php';">
+	</p>
 	<?php
+	echo '<h4><b><p>Role User: '.$data['role'].'</p></b></h4>';
 	echo '<h4><b><p>Surname: '.$data['username'].'</p></b></h4>';
 	echo '<h4><b><p>Name: '.$data['name'].'</p></b></h4>';
 	echo '<h4><b><p>Email: '.$data['email'].'</p></b></h4>';
@@ -57,7 +60,6 @@ $database_handle=new PDO("mysql:host=localhost;dbname=user",'root','');
 
 <ul id="my_menu">
 	<li><a href="index.php"><span>Home</span></a></li>
-	<li><a href="edituser.php"><span>Edit User</span></a></li>
 	<li><a href="addnews.php"><span>Add News</span></a></li>
 	<li><a href="newsedit.php"><span>Edit News</span></a></li>
 	<li><a href="exit.php"><span>Exit</span></a></li>
