@@ -66,9 +66,7 @@ $database_handle->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
 else {
 	echo 'You did not fill in all fields.';
 	echo '|<a href="registration.php"> Repeat registration </a>|';
-	echo '<br><a href="index.php">Home</a>';
 	}
-echo '<br><a href="index.php">Home</a>';
 ?>
 </div>
 </div>

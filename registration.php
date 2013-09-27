@@ -94,7 +94,7 @@ $limit_page = ceil($all_news / 10);
 <div id="login-box-name" style="margin-top:10px;">Email:</div><div id="login-box-field" style="margin-top:10px;"><input name="email" title="email" class="form-login" title="login" value="" size="30" maxlength="2048" /></div>
 <br />
 <b><a href="index.php" style="margin-right:300px;">Log</a></b>
-<p><input type=image src=/img/login-btn.png  name='submit' value='Log in' alt='Go!' border=0 style="margin-left:150px; margin-buttom:300px;">
+<p><input type=image src=/img/11.png  name='submit' value='Log in' alt='Go!' border=0 style="margin-left:150px; margin-buttom:300px;">
 </div>
 </div>
 </div>

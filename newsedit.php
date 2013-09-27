@@ -50,9 +50,6 @@ echo '<br><p align = center><strong> EDIT NEWS</strong></p>';
 	echo '<p><b>'.$data['title'].'</b> | <a href="newsedit.php?id='.$data['id'].'">edit</a> | <a href="newsedit.php?del='.$data['id'].'" >del</a><br></p>';
 	}
 }
-
-
-
 if(!empty($_GET['id'])){
 	$q = $database_handle->prepare("SELECT * FROM news WHERE id = '$_GET[id]'");
 	$q->execute();
@@ -82,7 +79,7 @@ if(!empty($_POST['title']) AND !empty($_POST['text'])) {
 </div>
 <div id="content">
 		<?php if(!empty($_SESSION['user'])) {
-		echo '<h3>  You logged in login '.$_SESSION['user'].'!</h3>';
+		echo '<h3>  You logged in login <a href=profile.php>'.$_SESSION['user'].'</a>!</h3>';
 		?>
 <ul id="my_menu">
 	<li><a href="index.php"><span>Home</span></a></li>

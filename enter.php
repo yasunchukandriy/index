@@ -23,7 +23,7 @@ else {
 <body link="#cecece" vlink="#cecece" alink="#ff0000">
 <?php if(empty($_SESSION['user'])) 
 		echo '<h3>  You logged in login Anonim!</h3>';
-		echo '<h3>  <a href="listuser">LIST USER</a></h3>';
+		echo '<h3>  <a href="listuser.php">LIST USER</a></h3>';
 		?>
 <div id="login-box">
 <H2>Login</H2>

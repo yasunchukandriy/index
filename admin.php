@@ -64,7 +64,7 @@ error_reporting(E_ALL);
 
 <div id="content">
 		<?php if(!empty($_SESSION['user'])) {
-		echo '<h3>  You logged in login '.$_SESSION['user'].'!</h3>';
+		echo '<h3>  You logged in login <a href=profile.php>'.$_SESSION['user'].'</a>!</h3>';
 		?>
 
 <ul id="my_menu">
