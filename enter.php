@@ -1,6 +1,5 @@
 ﻿<?php
 error_reporting(E_ALL);
-
 $database_handle=new PDO("mysql:host=localhost;dbname=user",'root','');
 if(isset($_SESSION['user']) AND isset($_SESSION['pass']))
 	{
@@ -22,7 +21,10 @@ else {
   </style>
 </head>
 <body link="#cecece" vlink="#cecece" alink="#ff0000">
-<div >
+<?php if(empty($_SESSION['user'])) 
+		echo '<h3>  You logged in login Anonim!</h3>';
+		echo '<h3>  <a href="listuser">LIST USER</a></h3>';
+		?>
 <div id="login-box">
 <H2>Login</H2>
 <br />

@@ -1,6 +1,6 @@
 <?php
 error_reporting(E_ALL);
-//session_start();
+// session_start();
 	if(empty($_SESSION['user'])) {
 		exit();
 		}
@@ -8,7 +8,7 @@ error_reporting(E_ALL);
 	$q = $database_handle->prepare("SELECT * FROM user WHERE `user` = '$_SESSION[user]'");
 	$q->execute();
 	$role = $q->fetch(PDO::FETCH_ASSOC);
-	if ($role['role'] == 'user' AND $role['role'] == 'editor')
+	if ($role['role'] == 'user' OR $role['role'] == 'editor')
 	{
 		print('You do not have access!!');
 		exit('<p><a href="index.php">Go back</a></p>');
@@ -36,25 +36,26 @@ error_reporting(E_ALL);
 <table cellpadding="20">
 <tr>
 <td>
-<? 
-		$q = $database_handle -> prepare("SELECT * FROM user ORDER BY ID");
-	 	$q->execute();
-	 	while($data = $q->fetch(PDO::FETCH_ASSOC)) 
-		{	
-				if(!empty($_GET['id'])) {
-				$a = $_GET['id'];
-				$q = $database_handle->prepare("SELECT * FROM user WHERE id = '$a'");
-	 			$q->execute();
-	 			$data = $q->fetch(PDO::FETCH_ASSOC);
-			if (strcmp($data['id'],$a) == 0){	
-				echo '<i><b><h1 align="center">'.$data['title'].'</h1></b></i><p align="center">Added by: '.$data['user'].'       '. date('d M Y H:i:s', $data['date']).'</p><p align="center"><img src="http://'.$_SERVER['HTTP_HOST'].'/img/'.$data['img'].'" height="400" width="600"></p><p align="justify">'.$data['text'].'|<a href="index.php"> Back </a>|</p>';
-				}
-			}
-			else {
-				echo '<i><b><h1 align="center">'.$data['title'].'</h1></b></i><p align="center">Added by: '.$data['user'].'       '. date('d M Y H:i:s', $data['date']) .'</p><p align="center"><img src="http://'.$_SERVER['HTTP_HOST'].'/img/'.$data['img'].'" height="400" width="600"></p><p align="center">'.$data['text'].'</i> | <a href="index.php?id='.$data['id'].'">Read more</a></p>';
-				echo '<br />';
-				}
-				} 
+<?php 
+	$q = $database_handle->prepare("SELECT * FROM user ORDER BY ID");
+	$q->execute();
+	while($data = $q->fetch(PDO::FETCH_ASSOC)) {	
+	echo '<h4><b>Login: '.$data['user'].'</b></h4>';
+	echo '<p><img src="http://'.$_SERVER['HTTP_HOST'].'/img/'.$data['avatar'].'" height="150" width="150"></p>';
+	?>
+<input type='submit' name='submit' value='DELETE USER' onclick="if(confirm('Are you sure you want to delete this user?'))location.href='admin.php?del=<?php print $data['id']; ?>'">
+<input type='submit' name='submit' value='EDIT USER' onclick="location.href='adminedit.php?edit=<?php print $data['id']; ?>'">
+<?php
+	}
+	if(!empty($_GET['del'])) {
+	$q = $database_handle->prepare("DELETE FROM user WHERE id = '$_GET[del]'");
+	$q->execute();
+	}
+	if(!empty($_GET['edit'])){
+	$q = $database_handle->prepare("SELECT * FROM user WHERE id = '$_GET[edit]'");
+	$q->execute();
+	$data = $q->fetch(PDO::FETCH_ASSOC);
+	}
 ?>	
 </td>
 </tr>
@@ -84,3 +85,4 @@ error_reporting(E_ALL);
 </div>
 </body>
 </html>
+
