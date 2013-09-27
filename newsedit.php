@@ -44,12 +44,14 @@ echo '<br><p align = center><strong> EDIT NEWS</strong></p>';
 }
 	if ($role['role'] == 'editor')
 	{
-	$q = $database_handle->prepare("SELECT * FROM user JOIN news WHERE user.user=news.user");
+	$q = $database_handle->prepare("SELECT user.*,news.*  FROM  user JOIN news WHERE user.user=news.user AND user.role='editor'");
 	$q->execute();
 	while($data = $q->fetch(PDO::FETCH_ASSOC)) {	
 	echo '<p><b>'.$data['title'].'</b> | <a href="newsedit.php?id='.$data['id'].'">edit</a> | <a href="newsedit.php?del='.$data['id'].'" >del</a><br></p>';
 	}
 }
+
+
 
 if(!empty($_GET['id'])){
 	$q = $database_handle->prepare("SELECT * FROM news WHERE id = '$_GET[id]'");

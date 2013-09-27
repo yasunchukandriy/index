@@ -30,22 +30,32 @@ $database_handle=new PDO("mysql:host=localhost;dbname=user",'root','');
 	<table cellpadding="20">
 	<tr>
 	<td>
-	<?php
+<?php
 	echo '<p><img src="http://'.$_SERVER['HTTP_HOST'].'/img/'.$data['avatar'].'" height="150" width="150"></p>';
-	?>
+?>
 	</td>
 	<td>
 	<p><input type='submit' name='submit' value='DELETE PROFILE' onclick="if(confirm('Are you sure you want to delete your account?'))location.href='profiledel.php';">
 	<input type='submit' name='submit' value='EDIT PROFILE' onclick="location.href='edituser.php';">
 	</p>
-	<?php
+<?php
 	echo '<h4><b><p>Role User: '.$data['role'].'</p></b></h4>';
 	echo '<h4><b><p>Surname: '.$data['username'].'</p></b></h4>';
 	echo '<h4><b><p>Name: '.$data['name'].'</p></b></h4>';
 	echo '<h4><b><p>Email: '.$data['email'].'</p></b></h4>';
 	echo '<h4><b><p>Date of Registration: '. date('d M Y H:i:s', $data['datereg']).'</p></b></h4>';
 	echo '<h4><b><p>Login time: '. date('d M Y H:i:s', $data['datelog']).'</p></b></h4>';		
-	?>	
+	$q = $database_handle->prepare("SELECT * FROM user WHERE `user` = '$_SESSION[user]'");
+	$q->execute();
+	$data = $q->fetch(PDO::FETCH_ASSOC);
+	if ($data['role'] == 'admin')
+	{
+?>	
+<input type='submit' name='submit' value='USERS LIST' onclick="location.href='admin.php';">
+<?php
+	}
+?>
+	
 	</td>
 	</tr>
 	</table>
