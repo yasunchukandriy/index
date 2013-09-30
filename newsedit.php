@@ -32,14 +32,18 @@ error_reporting(E_ALL);
 <div id="maket">
 <div id="header"><img src="img/f_4b1c3b607c0f6.jpg" width="1000"></div>
 <div id="left">
-	<?php
+<?php
 echo '<br><p align = center><strong> EDIT NEWS</strong></p>';
 	if ($role['role'] == 'admin')
 	{
 	$q = $database_handle->prepare("SELECT * FROM news ORDER BY ID");
 	$q->execute();
 	while($data = $q->fetch(PDO::FETCH_ASSOC)) {	
-	echo '<p><b>'.$data['title'].'</b> | <a href="newsedit.php?id='.$data['id'].'">edit</a> | <a href="newsedit.php?del='.$data['id'].'" >del</a><br></p>';
+	echo '<p><b>'.$data['title'].'</b>';
+?>
+	<input type='submit' name='submit' value='EDIT USER' onclick="location.href='newsedit.php?edit=<?php print $data['id']; ?>'">
+	<input type='submit' name='submit' value='DELETE' onclick="if(confirm('Are you sure you want to delete this user?'))location.href='newsedit.php?del=<?php print $data['id']; ?>'">	
+<?php
 	}
 }
 	if ($role['role'] == 'editor')
@@ -47,19 +51,24 @@ echo '<br><p align = center><strong> EDIT NEWS</strong></p>';
 	$q = $database_handle->prepare("SELECT user.*,news.*  FROM  user JOIN news WHERE user.user=news.user AND user.role='editor'");
 	$q->execute();
 	while($data = $q->fetch(PDO::FETCH_ASSOC)) {	
-	echo '<p><b>'.$data['title'].'</b> | <a href="newsedit.php?id='.$data['id'].'">edit</a> | <a href="newsedit.php?del='.$data['id'].'" >del</a><br></p>';
+	echo '<p><b>'.$data['title'].'</b>';
+	?>
+	<input type='submit' name='submit' value='EDIT USER' onclick="location.href='newsedit.php?edit=<?php print $data['id']; ?>'">
+	<input type='submit' name='submit' value='DELETE' onclick="if(confirm('Are you sure you want to delete this user?'))location.href='newsedit.php?del=<?php print $data['id']; ?>'">	
+<?php
 	}
 }
-if(!empty($_GET['id'])){
-	$q = $database_handle->prepare("SELECT * FROM news WHERE id = '$_GET[id]'");
-	$q->execute();
-	$data = $q->fetch(PDO::FETCH_ASSOC);
-	}
-	
 if(!empty($_GET['del'])) {
 	$q = $database_handle->prepare("DELETE FROM news WHERE id = '$_GET[del]'");
-	$q->execute();
+	$q->execute();  
 	}
+if(!empty($_GET['edit'])){
+	$q = $database_handle->prepare("SELECT * FROM news WHERE id = '$_GET[edit]'");
+	$q->execute();
+	$data = $q->fetch(PDO::FETCH_ASSOC);
+
+	}
+
 	?>
 <form id='forma' action='' method='post'>
 <p>Title<br /><input type='text' name='title' class="form-login1" value= <?=$data["title"] ?> ></p>

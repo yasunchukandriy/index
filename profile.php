@@ -20,7 +20,7 @@ $database_handle=new PDO("mysql:host=localhost;dbname=user",'root','');
    }
   </style>
 </head>
-<body text="white" link="red" vlink="#cecece" alink="#ff0000">
+<body text="white" link="red" vlink="red" alink="red" ">
 <div id="maket">
 <div id="header"><img src="img/f_4b1c3b607c0f6.jpg" width="1000"></div>
 <div id="left">
