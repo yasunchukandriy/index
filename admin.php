@@ -1,6 +1,8 @@
-<?php
+﻿<?php
 error_reporting(E_ALL);
 // session_start();
+ ini_set("include_path",getenv("DOCUMENT_ROOT")."/function");
+    include "translate.php";
 	if(empty($_SESSION['user'])) {
 		exit();
 		}
@@ -30,9 +32,12 @@ error_reporting(E_ALL);
 </head>
 <body text="white" link="red" vlink="red" alink="red" >
 <div id="maket">
-<div id="header"><a href="index.php"><img src="img/f_4b1c3b607c0f6.jpg" width="1000"></a></div>
+<div id="header">
+<a href=<?php print "admin.php?lang=English&" . http_build_query($_GET) ?>><img src="/img/flag-en0.gif"></a>
+<a href=<?php print "admin.php?lang=Ukrainian&" . http_build_query($_GET) ?>><img src="/img/flag_ukr.gif"></a>
+<a href="index.php"><img src="img/f_4b1c3b607c0f6.jpg" width="1000"></a></div>
 <div id="left">
-<p align = center><strong>USERS LIST</strong>
+<p align = center><strong><?php print(translate('USERS LIST',$_SESSION['language']))?></strong>
 <table cellpadding="20">
 <tr>
 <td>
@@ -40,11 +45,11 @@ error_reporting(E_ALL);
 	$q = $database_handle->prepare("SELECT * FROM user ORDER BY ID");
 	$q->execute();
 	while($data = $q->fetch(PDO::FETCH_ASSOC)) {	
-	echo '<h4><b>Login: '.$data['user'].'</b></h4>';
+	echo '<h4><b>'. translate('Login',$_SESSION['language']).': '.$data['user'].'</b></h4>';
 	echo '<p><img src="http://'.$_SERVER['HTTP_HOST'].'/img/'.$data['avatar'].'" height="150" width="150"></p>';
 	?>
-<input type='submit' name='submit' value='DELETE USER' onclick="if(confirm('Are you sure you want to delete this user?'))location.href='admin.php?del=<?php print $data['id']; ?>'">
-<input type='submit' name='submit' value='EDIT USER' onclick="location.href='adminedit.php?edit=<?php print $data['id']; ?>'">
+<input type='submit' name='submit' value='<?php print(translate('DELETE USER',$_SESSION['language']))?>' onclick="if(confirm('<?php print(translate('Are you sure you want to delete this user?',$_SESSION['language']))?>'))location.href='admin.php?del=<?php print $data['id']; ?>'">
+<input type='submit' name='submit' value='<?php print(translate('EDIT USER',$_SESSION['language']))?>' onclick="location.href='adminedit.php?edit=<?php print $data['id']; ?>'">
 <?php
 	}
 	if(!empty($_GET['del'])) {
@@ -64,15 +69,15 @@ error_reporting(E_ALL);
 
 <div id="content">
 		<?php if(!empty($_SESSION['user'])) {
-		echo '<h3>  You logged in login <a href=profile.php>'.$_SESSION['user'].'</a>!</h3>';
+		echo '<h3>  '. translate('You logged in login',$_SESSION['language']).' <a href=profile.php>'.$_SESSION['user'].'</a>!</h3>';
 		?>
 
 <ul id="my_menu">
-	<li><a href="index.php"><span>Home</span></a></li>
-	<li><a href="profile.php"><span>Profile</span></a></li>
-	<li><a href="addnews.php"><span>Add News</span></a></li>
-	<li><a href="newsedit.php"><span>Edit News</span></a></li>
-	<li><a href="exit.php"><span>Exit</span></a></li>
+	<li><a href="index.php"><span><?php print(translate('Home',$_SESSION['language']))?></span></a></li>
+	<li><a href="profile.php"><span><?php print(translate('Profile',$_SESSION['language']))?></span></a></li>
+	<li><a href="addnews.php"><span><?php print(translate('Add News',$_SESSION['language']))?></span></a></li>
+	<li><a href="newsedit.php"><span><?php print(translate('Edit News',$_SESSION['language']))?></span></a></li>
+	<li><a href="exit.php"><span><?php print(translate('Exit',$_SESSION['language']))?></span></a></li>
 </ul>
 		<?
 		} 

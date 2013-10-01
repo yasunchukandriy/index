@@ -1,6 +1,8 @@
-<?php
+﻿<?php
 error_reporting(E_ALL);
 //session_start();
+ ini_set("include_path",getenv("DOCUMENT_ROOT")."/function");
+    include "translate.php";
 if(empty($_SESSION['user'])) {
 		exit();
 		}
@@ -96,14 +98,15 @@ if ($_POST['changepassword'] == $_POST['changepassword2']){
 
 <div id="content">
 		<?php if(!empty($_SESSION['user'])) {
-		echo '<h3>  You logged in login <a href=profile.php>'.$_SESSION['user'].'</a>!</h3>';
+	echo '<h3>  '. translate('You logged in login',$_SESSION['language']).' <a href=profile.php>'.$_SESSION['user'].'</a>!</h3>';
 		?>
 
 <ul id="my_menu">
-	<li><a href="index.php"><span>Home</span></a></li>
-	<li><a href="addnews.php"><span>Add News</span></a></li>
-	<li><a href="newsedit.php"><span>Edit News</span></a></li>
-	<li><a href="exit.php"><span>Exit</span></a></li>
+	<li><a href="index.php"><span><?php print(translate('Home',$_SESSION['language']))?></span></a></li>
+	<li><a href="profile.php"><span><?php print(translate('Profile',$_SESSION['language']))?></span></a></li>
+	<li><a href="addnews.php"><span><?php print(translate('Add News',$_SESSION['language']))?></span></a></li>
+	<li><a href="newsedit.php"><span><?php print(translate('Edit News',$_SESSION['language']))?></span></a></li>
+	<li><a href="exit.php"><span><?php print(translate('Exit',$_SESSION['language']))?></span></a></li>
 </ul>
 		<?
 		} 

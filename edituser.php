@@ -1,6 +1,8 @@
-<?php
+﻿<?php
 error_reporting(E_ALL);
 //session_start();
+ini_set("include_path",getenv("DOCUMENT_ROOT")."/function");
+    include "translate.php";
 $database_handle=new PDO("mysql:host=localhost;dbname=user",'root','');
 if(empty($_SESSION['user'])) {
 		exit();
@@ -27,19 +29,23 @@ if(empty($_SESSION['user'])) {
 </head>
 <body text="white" link="red" vlink="red" alink="red" >
 <div id="maket">
-<div id="header"><a href="index.php"><img src="img/f_4b1c3b607c0f6.jpg" width="1000"></a></div>
+<div id="header">
+<a href=<?php print "edituser.php?lang=English&" . http_build_query($_GET) ?>><img src="/img/flag-en0.gif"></a>
+<a href=<?php print "edituser.php?lang=Ukrainian&" . http_build_query($_GET) ?>><img src="/img/flag_ukr.gif"></a>
+<a href="index.php"><img src="img/f_4b1c3b607c0f6.jpg" width="1000"></a></div>
 <div id="left">
 <?php
 	$q = $database_handle->prepare("SELECT * FROM user WHERE `user` = '$_SESSION[user]'");
 	$q->execute();
 	$data = $q->fetch(PDO::FETCH_ASSOC);
 ?>
-	<br><p align = center><strong>PAGE EDITING USER DATA</strong>
+	<br><p align = center><strong><?php print(translate('PAGE EDITING USER DATA',$_SESSION['language']))?></strong>
 	<form id='forma' action='' method='POST' enctype='multipart/form-data'>
-	<p>Your surname<br /><input type='text' name="surname" class="form-login1" value= <?=$data["username"] ?>></p>
-	<p>Your name<br /><input name="name" class="form-login2" value= <?=$data["name"] ?>></p> Edit Avatar <br /> <input type='file' name='filename'>
-	<p>Change your email<br /><input type='text' name="changeemail" class="form-login1" value= <?=$data["email"] ?>></p>
-	<p><input type='submit' name='submit' value='Add'><br></p></form>
+	<p><?php print(translate('Your surname',$_SESSION['language']))?><br /><input type='text' name="surname" class="form-login1" value= <?=$data["username"] ?>></p>
+	<p><?php print(translate('Your name',$_SESSION['language']))?><br /><input name="name" class="form-login2" value= <?=$data["name"] ?>></p> 
+	<?php print(translate('Edit Avatar',$_SESSION['language']))?> <br /> <input type='file' name='filename'>
+	<p><?php print(translate('Change your email',$_SESSION['language']))?><br /><input type='text' name="changeemail" class="form-login1" value= <?=$data["email"] ?>></p>
+	<p><input type='submit' name='submit' value='<?php print(translate('Add',$_SESSION['language']))?>'><br></p></form>
 <?php
 	if(!empty($_POST['surname']) AND !empty($_POST['name']) AND !empty($_POST['changeemail']) AND ($_FILES["filename"]["size"] < 1024*5*1024)) {
 	if(is_uploaded_file($_FILES["filename"]["tmp_name"])){
@@ -58,11 +64,11 @@ if(empty($_SESSION['user'])) {
 		exit("<meta http-equiv='refresh' content='0; url= $_SERVER[PHP_SELF]'>");
 }
 ?>
-<br><p><strong>CHANGE PASSWORD</strong>
+<br><p><strong><?php print(translate('CHANGE PASSWORD',$_SESSION['language']))?></strong>
 <form id='forma' action='' method='POST' enctype='multipart/form-data'>
-	<p>New password<br /><input type='password' name="changepassword" class="form-login1" ></p>
-	<p>Repeat new password<br /><input type='password' name="changepassword2" class="form-login1" ></p>
-	<p><input type='submit' name='submit' value='Change'><br></p></form>
+	<p><?php print(translate('New password',$_SESSION['language']))?><br /><input type='password' name="changepassword" class="form-login1" ></p>
+	<p><?php print(translate('Repeat new password',$_SESSION['language']))?><br /><input type='password' name="changepassword2" class="form-login1" ></p>
+	<p><input type='submit' name='submit' value='<?php print(translate('Change',$_SESSION['language']))?>'><br></p></form>
 
 <?php
 if(!empty($_POST['changepassword']) AND !empty($_POST['changepassword2'])){
@@ -84,15 +90,16 @@ if ($_POST['changepassword'] == $_POST['changepassword2']){
 
 <div id="content">
 		<?php if(!empty($_SESSION['user'])) {
-		echo '<h3>  You logged in login <a href=profile.php>'.$_SESSION['user'].'</a>!</h3>';
+		echo '<h3>  '. translate('You logged in login',$_SESSION['language']).' <a href=profile.php>'.$_SESSION['user'].'</a>!</h3>';
 		?>
 
-<ul id="my_menu">
-	<li><a href="index.php"><span>Home</span></a></li>
-	<li><a href="profile.php"><span>Profile</span></a></li>
-	<li><a href="addnews.php"><span>Add News</span></a></li>
-	<li><a href="newsedit.php"><span>Edit News</span></a></li>
-	<li><a href="exit.php"><span>Exit</span></a></li>
+<ul id="my_menu">	
+	<li><a href="index.php"><span><?php print(translate('Home',$_SESSION['language']))?></span></a></li>
+	<li><a href="profile.php"><span><?php print(translate('Profile',$_SESSION['language']))?></span></a></li>
+	<li><a href="addnews.php"><span><?php print(translate('Add News',$_SESSION['language']))?></span></a></li>
+	<li><a href="newsedit.php"><span><?php print(translate('Edit News',$_SESSION['language']))?></span></a></li>
+	<li><a href="exit.php"><span><?php print(translate('Exit',$_SESSION['language']))?></span></a></li>
+	
 </ul>
 		<?
 		} 

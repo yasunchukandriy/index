@@ -3,7 +3,7 @@ error_reporting(E_ALL);
 $database_handle=new PDO("mysql:host=localhost;dbname=user",'root','');
 if(isset($_SESSION['user']) AND isset($_SESSION['pass']))
 	{
-	echo 'You are already logged in.';
+	echo ''.translate('You are already logged in.',$_SESSION['language']).'';
 	} 
 else {
 ?>
@@ -22,19 +22,19 @@ else {
 </head>
 <body link="#cecece" vlink="#cecece" alink="#ff0000">
 <?php if(empty($_SESSION['user'])) 
-		echo '<h3>  You logged in login Anonim!</h3>';
-		echo '<h3>  <a href="listuser.php">LIST USER</a></h3>';
+		echo '<h3>'.translate('You logged in login Anonim!',$_SESSION['language']).' </h3>';
+		echo '<h3>  <a href="listuser.php">'.translate('LIST USER',$_SESSION['language']).'</a></h3>';
 		?>
 <div id="login-box">
-<H2>Login</H2>
+<H2><?php print(translate('LOGIN',$_SESSION['language']))?></H2>
 <br />
 <br />
 <form id='forma' action='auth.php' method='post'>
-<div id="login-box-name" style="margin-top:10px;">Login:</div><div id="login-box-field" style="margin-top:10px;"><input name="login" class="form-login" title="login" value="" size="30" maxlength="2048" /></div>
-<div id="login-box-name">Password:</div><div id="login-box-field"><input name="password" type="password" class="form-login" title="password" value="" size="30" maxlength="2048" /></div>
+<div id="login-box-name" style="margin-top:10px;"><?php print(translate('Login',$_SESSION['language']))?>:</div><div id="login-box-field" style="margin-top:10px;"><input name="login" class="form-login" title="login" value="" size="30" maxlength="2048" /></div>
+<div id="login-box-name"><?php print(translate('Password',$_SESSION['language']))?>:</div><div id="login-box-field"><input name="password" type="password" class="form-login" title="password" value="" size="30" maxlength="2048" /></div>
 <br />
 <p><input type=image src=/img/login-btn.png  name='submit' value='Log in' alt='Go!' border=0 style="margin-left:150px;">
-<p><b><a href="registration.php" style="margin-left:30px;">Registration</a></b></span></p>
+<p><b><a href="registration.php" style="margin-left:30px;"><?php print(translate('Registration',$_SESSION['language']))?></a></b></span></p>
 </div>
 </div>
 </form>

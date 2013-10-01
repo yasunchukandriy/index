@@ -1,6 +1,8 @@
 ﻿<?php
 error_reporting(E_ALL);
 //session_start();
+ ini_set("include_path",getenv("DOCUMENT_ROOT")."/function");
+    include "translate.php";
 	if(empty($_SESSION['user'])) {
 		exit();
 		}
@@ -30,14 +32,17 @@ error_reporting(E_ALL);
 </head>
 <body text="white" link="red" vlink="red" alink="red" >
 <div id="maket">
-<div id="header"><a href="index.php"><img src="img/f_4b1c3b607c0f6.jpg" width="1000"></a></div>
+<div id="header">
+<a href=<?php print "addnews.php?lang=English&" . http_build_query($_GET) ?>><img src="/img/flag-en0.gif"></a>
+<a href=<?php print "addnews.php?lang=Ukrainian&" . http_build_query($_GET) ?>><img src="/img/flag_ukr.gif"></a>
+<a href="index.php"><img src="img/f_4b1c3b607c0f6.jpg" width="1000"></a></div>
 <div id="left">
-	<br><p align = center><strong>ADD NEWS</strong>
+	<br><p align = center><strong><?php print(translate('ADD NEWS',$_SESSION['language']))?></strong>
 	<form id='forma' action='' method='post' enctype='multipart/form-data'>
-	<p>Title<br /><input type='text' name='title' class="form-login1"></p>
-	<p>Text<br /><textarea rows='10' cols='45' name='text' class="form-login2"></textarea></p> Add a picture <br /> <input type='file' name='filename'>
+	<p><?php print(translate('Title',$_SESSION['language']))?><br /><input type='text' name='title' class="form-login1"></p>
+	<p><?php print(translate('Text',$_SESSION['language']))?><br /><textarea rows='10' cols='45' name='text' class="form-login2"></textarea></p> <?php print(translate('Add a picture',$_SESSION['language']))?> <br /> <input type='file' name='filename'>
 	<br>
-	<p><input type='submit' name='submit' value='Add'><br></p></form>
+	<p><input type='submit' name='submit' value='<?php print(translate('Add',$_SESSION['language']))?>'><br></p></form>
 	<?
 	if(!empty($_POST['title']) AND !empty($_POST['text']) AND $_FILES["filename"]["size"] < 1024*3*1024)
 	{	
@@ -61,14 +66,14 @@ error_reporting(E_ALL);
 
 <div id="content">
 		<?php if(!empty($_SESSION['user'])) {
-		echo '<h3>  You logged in login <a href=profile.php>'.$_SESSION['user'].'</a>!</h3>';
+	echo '<h3>  '. translate('You logged in login',$_SESSION['language']).' <a href=profile.php>'.$_SESSION['user'].'</a>!</h3>';
 		?>
 
 <ul id="my_menu">
-	<li><a href="index.php"><span>Home</span></a></li>
-	<li><a href="profile.php"><span>Profile</span></a></li>
-	<li><a href="newsedit.php"><span>Edit News</span></a></li>
-	<li><a href="exit.php"><span>Exit</span></a></li>
+	<li><a href="index.php"><span><?php print(translate('Home',$_SESSION['language']))?></span></a></li>
+	<li><a href="profile.php"><span><?php print(translate('Profile',$_SESSION['language']))?></span></a></li>
+	<li><a href="newsedit.php"><span><?php print(translate('Edit News',$_SESSION['language']))?></span></a></li>
+	<li><a href="exit.php"><span><?php print(translate('Exit',$_SESSION['language']))?></span></a></li>
 </ul>
 		<?
 		} 

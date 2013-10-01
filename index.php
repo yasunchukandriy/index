@@ -34,14 +34,13 @@ $limit_page = ceil($all_news / 10);
 </head>
 <body text="white" link="red" vlink="red" alink="red" >
 <div id="maket">
-<div id="header"><a href="index.php"><img src="img/f_4b1c3b607c0f6.jpg" width="1000"></a>
- <form  method="POST">
-                <select name="form_language">
-                <option value="English">English</option>
-                <option value="Ukrainian">Українська</option>
-                </select>
-            <input type="submit" value="<?php print(translate('change',$_SESSION['language']))?>">
-    </form>
+<div id="header">
+<a href=<?php print "index.php?lang=English&" . http_build_query($_GET) ?>><img src="/img/flag-en0.gif"></a>
+<a href=<?php print "index.php?lang=Ukrainian&" . http_build_query($_GET) ?>><img src="/img/flag_ukr.gif"></a>
+
+        <!-- <input type=image src="/img/flag-en0.gif"  name='en'  alt='Go!' onclick="location.href='index.php?lang=English'">    -->
+        <!-- <input type=image src="/img/flag_ukr.gif"  name="ukr"  alt="Go!" onclick="location.href='index.php?lang=Ukrainian'">      -->
+<a href="index.php"><img src="img/f_4b1c3b607c0f6.jpg" width="1000"></a>
 </div>
 <div id="left">
 <form method = "post">
@@ -57,8 +56,7 @@ $limit_page = ceil($all_news / 10);
 	?>
 <?php 
 		$your_desired_width = 150;
-
-		echo '<br><p align = center><strong>NEWS</strong></p>';
+		echo '<br><p align = center><strong> '. translate('NEWS',$_SESSION['language']).'</strong></p>';
 	 	// $q = $database_handle->prepare("SELECT * FROM news ORDER BY ID");
 	 	$first = ($_SESSION['current_page']-1)*10;
 		$last = 10;
@@ -82,9 +80,9 @@ $limit_page = ceil($all_news / 10);
 		{	
 			if (strlen($data['text']) < $your_desired_width) {
 				if (($data['img'])==NULL)	
-				echo '<i><b><h1 align="center"><a href="index.php?id='.$data['id'].'">'.$data['title'].'</a></h1></b></i><p align="center">Added by: <a href="newsuser.php?user='. $data['user'] .'">'.$data['user'].'</a>       '. date('d M Y H:i:s', $data['date']) .'</p><p align="center">'.$data['text'].'</i></p>';
+				echo '<i><b><h1 align="center"><a href="index.php?id='.$data['id'].'">'.$data['title'].'</a></h1></b></i><p align="center">'. translate('Added by:',$_SESSION['language']).'<a href="newsuser.php?user='. $data['user'] .'">'.$data['user'].'</a>       '. date('d M Y H:i:s', $data['date']) .'</p><p align="center">'.$data['text'].'</i></p>';
 					else
-       			echo '<i><b><h1 align="center"><a href="index.php?id='.$data['id'].'">'.$data['title'].'</a></h1></b></i><p align="center">Added by: <a href="newsuser.php?user='. $data['user'] .'">'.$data['user'].'</a>       '. date('d M Y H:i:s', $data['date']) .'</p><p align="center"><img src="http://'.$_SERVER['HTTP_HOST'].'/img/'.$data['img'].'" height="400" width="600"></p><p align="center">'.$data['text'].'</i></p>';
+       			echo '<i><b><h1 align="center"><a href="index.php?id='.$data['id'].'">'.$data['title'].'</a></h1></b></i><p align="center">'. translate('Added by:',$_SESSION['language']).' <a href="newsuser.php?user='. $data['user'] .'">'.$data['user'].'</a>       '. date('d M Y H:i:s', $data['date']) .'</p><p align="center"><img src="http://'.$_SERVER['HTTP_HOST'].'/img/'.$data['img'].'" height="400" width="600"></p><p align="center">'.$data['text'].'</i></p>';
     			}
     		else  {
     			$data['text'] = wordwrap($data['text'], $your_desired_width);
@@ -93,24 +91,23 @@ $limit_page = ceil($all_news / 10);
         		$data['text'] = substr($data['text'], 0, $i);
     			}
     			if (($data['img'])==NULL)
-				echo '<i><b><h1 align="center"><a href="index.php?id='.$data['id'].'">'.$data['title'].'</a></h1></b></i><p align="center">Added by: <a href="newsuser.php?user='. $data['user'] .'">'.$data['user'].'</a>       '. date('d M Y H:i:s', $data['date']) .'</p><p align="center">'.$data['text'].'</i> | <a href="index.php?id='.$data['id'].'">Read more</a></p>';
+				echo '<i><b><h1 align="center"><a href="index.php?id='.$data['id'].'">'.$data['title'].'</a></h1></b></i><p align="center">'. translate('Added by:',$_SESSION['language']).' <a href="newsuser.php?user='. $data['user'] .'">'.$data['user'].'</a>       '. date('d M Y H:i:s', $data['date']) .'</p><p align="center">'.$data['text'].'</i> | <a href="index.php?id='.$data['id'].'">'. translate('Read more',$_SESSION['language']).'</a></p>';
     			else
-    			echo '<i><b><h1 align="center"><a href="index.php?id='.$data['id'].'">'.$data['title'].'</a></h1></b></i><p align="center">Added by: <a href="newsuser.php?user='. $data['user'] .'">'.$data['user'].'</a>       '. date('d M Y H:i:s', $data['date']) .'</p><p align="center"><img src="http://'.$_SERVER['HTTP_HOST'].'/img/'.$data['img'].'" height="400" width="600"></p><p align="center">'.$data['text'].'</i> | <a href="index.php?id='.$data['id'].'">Read more</a></p>';
+    			echo '<i><b><h1 align="center"><a href="index.php?id='.$data['id'].'">'.$data['title'].'</a></h1></b></i><p align="center">'. translate('Added by:',$_SESSION['language']).' <a href="newsuser.php?user='. $data['user'] .'">'.$data['user'].'</a>       '. date('d M Y H:i:s', $data['date']) .'</p><p align="center"><img src="http://'.$_SERVER['HTTP_HOST'].'/img/'.$data['img'].'" height="400" width="600"></p><p align="center">'.$data['text'].'</i> | <a href="index.php?id='.$data['id'].'">'. translate('Read more',$_SESSION['language']).'</a></p>';
     		}
 			}
-		
 ?>
 				</div>
 <div id="content">
 		<?php if(!empty($_SESSION['user'])) {
-		echo '<h3>  You logged in login <a href=profile.php>'.$_SESSION['user'].'</a>!</h3>';
+		echo '<h3>  '. translate('You logged in login',$_SESSION['language']).' <a href=profile.php>'.$_SESSION['user'].'</a>!</h3>';
 		?>
 <ul id="my_menu">
-	<li><a href="index.php"><span>Home</span></a></li>
-	<li><a href="profile.php"><span>Profile</span></a></li>
-	<li><a href="addnews.php"><span>Add News</span></a></li>
-	<li><a href="newsedit.php"><span>Edit News</span></a></li>
-	<li><a href="exit.php"><span>Exit</span></a></li>
+	<li><a href="index.php"><span><?php print(translate('Home',$_SESSION['language']))?></span></a></li>
+	<li><a href="profile.php"><span><?php print(translate('Profile',$_SESSION['language']))?></span></a></li>
+	<li><a href="addnews.php"><span><?php print(translate('Add News',$_SESSION['language']))?></span></a></li>
+	<li><a href="newsedit.php"><span><?php print(translate('Edit News',$_SESSION['language']))?></span></a></li>
+	<li><a href="exit.php"><span><?php print(translate('Exit',$_SESSION['language']))?></span></a></li>
 </ul>
 		<?
 		} 
@@ -119,8 +116,6 @@ $limit_page = ceil($all_news / 10);
 		}
 ?> 
 </div>
-
 </div>
 </body>
 </html>
-
