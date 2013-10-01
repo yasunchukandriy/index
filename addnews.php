@@ -30,7 +30,7 @@ error_reporting(E_ALL);
 </head>
 <body text="white" link="red" vlink="red" alink="red" >
 <div id="maket">
-<div id="header"><img src="img/f_4b1c3b607c0f6.jpg" width="1000"></div>
+<div id="header"><a href="index.php"><img src="img/f_4b1c3b607c0f6.jpg" width="1000"></a></div>
 <div id="left">
 	<br><p align = center><strong>ADD NEWS</strong>
 	<form id='forma' action='' method='post' enctype='multipart/form-data'>
@@ -48,8 +48,8 @@ error_reporting(E_ALL);
    } else {
       echo("Error loading file");
    }
-   	$title = trim($_POST['title']);
-	$text = trim($_POST['text']);
+   	$title = strip_tags(trim($_POST['title']));
+	$text = strip_tags(trim($_POST['text']));
 	$filename = $_FILES["filename"]["name"];
 	$user = $_SESSION['user'];
 	$date = time();

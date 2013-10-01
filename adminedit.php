@@ -28,9 +28,9 @@ if(empty($_SESSION['user'])) {
    }
   </style>
 </head>
-<body text="white" link="red" vlink="#cecece" alink="#ff0000">
+<body text="white" link="red" vlink="red" alink="red" >
 <div id="maket">
-<div id="header"><img src="img/f_4b1c3b607c0f6.jpg" width="1000"></div>
+<div id="header"><a href="index.php"><img src="img/f_4b1c3b607c0f6.jpg" width="1000"></a></div>
 <div id="left">
 <?php
 	$q = $database_handle->prepare("SELECT * FROM `user` WHERE `id` = '$_GET[edit]'");
@@ -59,11 +59,11 @@ if(empty($_SESSION['user'])) {
    } else {
       echo 'No avatar';
    }
-	$surname = trim($_POST['surname']);
-	$name = trim($_POST['name']);
-	$email = trim($_POST['changeemail']);
+	$surname = strip_tags(trim($_POST['surname']));
+	$name = strip_tags(trim($_POST['name']));
+	$email = strip_tags(trim($_POST['changeemail']));
 	$filename = $_FILES["filename"]["name"];
-	$role = $_POST['role'];
+	$role = strip_tags($_POST['role']);
 	$q = $database_handle->prepare("UPDATE `user` SET `email` = '$email', `username` = '$surname', `name` = '$name', `avatar` = '$filename', `role` = '$role' WHERE `id` = '$_GET[edit]'");
 	$q->execute();
 		if($q) print('Data add!');
@@ -78,7 +78,7 @@ if(empty($_SESSION['user'])) {
 	<p><input type='submit' name='submit' value='Change'><br></p></form>
 <?php
 if(!empty($_POST['changepassword']) AND !empty($_POST['changepassword2'])){
-$pass = md5(trim($_POST['changepassword']));
+$pass = strip_tags(md5(trim($_POST['changepassword'])));
 if ($_POST['changepassword'] == $_POST['changepassword2']){
 		$q = $database_handle->prepare("UPDATE `user` SET `pass` = '$pass' WHERE `id` = '$_GET[edit]'");
 		$q->execute();

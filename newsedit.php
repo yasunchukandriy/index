@@ -30,7 +30,7 @@ error_reporting(E_ALL);
 </head>
 <body text="white"  link="red" vlink="red" alink="red" >
 <div id="maket">
-<div id="header"><img src="img/f_4b1c3b607c0f6.jpg" width="1000"></div>
+<div id="header"><a href="index.php"><img src="img/f_4b1c3b607c0f6.jpg" width="1000"></a></div>
 <div id="left">
 <?php
 echo '<br><p align = center><strong> EDIT NEWS</strong></p>';
@@ -77,9 +77,9 @@ if(!empty($_GET['edit'])){
 <br></p></form>
 <?php
 if(!empty($_POST['title']) AND !empty($_POST['text'])) {
-	$title = trim($_POST['title']);
-	$text = trim($_POST['text']);
-	$q = $database_handle->prepare("UPDATE `news` SET  `title` =  '$_POST[title]', `text` =  '$_POST[text]' WHERE  `id` = $_GET[id]");
+	$title = strip_tags(trim($_POST['title']));
+	$text = strip_tags(trim($_POST['text']));
+	$q = $database_handle->prepare("UPDATE `news` SET  `title` =  '$title', `text` =  '$text' WHERE  `id` = $_GET[edit]");
 	$q->execute();
 	unset($_POST);
 	echo 'News Update<br>';

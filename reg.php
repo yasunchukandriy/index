@@ -21,7 +21,7 @@ $database_handle->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
 <div id="footer" align="center"><font color="red">••InternetDevels••</font></div>
 <div id="content">
 	<? if (!empty($_POST['login']) AND !empty($_POST['password']) AND !empty($_POST['password2']) AND !empty($_POST['email']) ){
- 	$login1 = $_POST['login'];
+ 	$login1 = strip_tags($_POST['login']);
   	$log_sql = $database_handle->prepare("SELECT COUNT(*) FROM user WHERE user = '{$login1}'");
 	$log_sql->execute();
 	$data_exists = $log_sql->fetchColumn();
@@ -30,7 +30,7 @@ $database_handle->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
     echo '<br>|<a href="registration.php"> Repeat registration </a>|'; 
     exit();
     }
-    $email1 = $_POST['email'];
+    $email1 = strip_tags($_POST['email']);
 	$email_sql = $database_handle->prepare("SELECT COUNT(*) FROM user WHERE email = '{$email1}'");
 	$email_sql->execute();
 	$data_exists = $email_sql->fetchColumn();
@@ -45,16 +45,16 @@ $database_handle->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
 		echo '|<a href="registration.php"> Repeat registration </a>|';
 		exit();
 	}
-	$login = trim($_POST['login']);
-	$password = md5($_POST['password']);
-	$email = trim($_POST['email']);
+	$login = strip_tags(trim($_POST['login']));
+	$password = strip_tags(md5($_POST['password']));
+	$email = strip_tags(trim($_POST['email']));
 	$avatar = 'user-icon1.jpg';
 	$datereg = time();
 	$role = 'user';
 	$insert = $database_handle->exec("INSERT INTO user (`user`, `pass`, `email`,`avatar`,`datereg`,`role`) VALUES ('$login' , '$password', '$email','$avatar','$datereg', '$role')");
 	if($insert) { 
-		$_SESSION['user'] = $_POST['login'];
-		$_SESSION['pass'] = $_POST['password'];
+		$_SESSION['user'] = strip_tags($_POST['login']);
+		$_SESSION['pass'] = strip_tags($_POST['password']);
 		$datelog = time();
 		$q = $database_handle->prepare("UPDATE `user` SET `datelog` = '$datelog' WHERE `user` = '$_SESSION[user]'");
 		$q->execute();

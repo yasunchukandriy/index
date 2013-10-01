@@ -9,11 +9,7 @@ if(empty($_SESSION['user'])) {
 	$qu = $database_handle->prepare("SELECT * FROM user WHERE `user` = '$_SESSION[user]'");
 	$qu->execute();
 	$role = $qu->fetch(PDO::FETCH_ASSOC);
-	if ($role['role'] == 'user')
-	{
-		print('You do not have access!!');
-		exit('<p><a href="index.php">Go back</a></p>');
-	}
+	
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
 "http://www.w3.org/TR/html4/loose.dtd">
@@ -31,7 +27,7 @@ if(empty($_SESSION['user'])) {
 </head>
 <body text="white" link="red" vlink="red" alink="red" >
 <div id="maket">
-<div id="header"><img src="img/f_4b1c3b607c0f6.jpg" width="1000"></div>
+<div id="header"><a href="index.php"><img src="img/f_4b1c3b607c0f6.jpg" width="1000"></a></div>
 <div id="left">
 <?php
 	$q = $database_handle->prepare("SELECT * FROM user WHERE `user` = '$_SESSION[user]'");
@@ -52,9 +48,9 @@ if(empty($_SESSION['user'])) {
    } else {
       echo("No avatar");
    }
-	$surname = trim($_POST['surname']);
-	$name = trim($_POST['name']);
-	$email = trim($_POST['changeemail']);
+	$surname = strip_tags(trim($_POST['surname']));
+	$name = strip_tags(trim($_POST['name']));
+	$email = strip_tags(trim($_POST['changeemail']));
 	$filename = $_FILES["filename"]["name"];
 	$q = $database_handle->prepare("UPDATE `user` SET `email` = '$email', `username` = '$surname', `name` = '$name', `avatar` = '$filename' WHERE `user` = '$_SESSION[user]'");
 	$q->execute();
@@ -71,7 +67,7 @@ if(empty($_SESSION['user'])) {
 <?php
 if(!empty($_POST['changepassword']) AND !empty($_POST['changepassword2'])){
 
-$pass = md5(trim($_POST['changepassword']));
+$pass = strip_tags(md5(trim($_POST['changepassword'])));
 if ($_POST['changepassword'] == $_POST['changepassword2']){
 		$q = $database_handle->prepare("UPDATE `user` SET `pass` = '$pass' WHERE `user` = '$_SESSION[user]'");
 		$q->execute();

@@ -34,7 +34,7 @@ $limit_page = ceil($all_news / 10);
 </head>
 <body text="white" link="red" vlink="red" alink="red" >
 <div id="maket">
-<div id="header"><img src="img/f_4b1c3b607c0f6.jpg" width="1000"></div>
+<div id="header"><a href="index.php"><img src="img/f_4b1c3b607c0f6.jpg" width="1000"></a></div>
 <div id="left">
 <form method = "post">
 		  <select name = "current_page">

@@ -1,9 +1,6 @@
 <?php
 error_reporting(E_ALL);
 //session_start();
-if(empty($_SESSION['user'])) {
-		exit();
-		}
 $database_handle=new PDO("mysql:host=localhost;dbname=user",'root','');
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
@@ -25,12 +22,11 @@ $database_handle=new PDO("mysql:host=localhost;dbname=user",'root','');
 <div id="header"><a href="index.php"><img src="img/f_4b1c3b607c0f6.jpg" width="1000"></a></div>
 <div id="left">
 <?php
-
-	$q = $database_handle->prepare("SELECT * FROM user WHERE `user` = '$_SESSION[user]'");
+	$q = $database_handle->prepare("SELECT * FROM `user` WHERE `user` = '$_GET[user]'");
 	$q->execute();
 	$data = $q->fetch(PDO::FETCH_ASSOC);
 ?>
-	<p align = center><strong>MY PROFILE</strong>
+	<p align = center><strong>USER</strong>
 	<table cellpadding="20">
 	<tr>
 	<td>
@@ -39,27 +35,13 @@ $database_handle=new PDO("mysql:host=localhost;dbname=user",'root','');
 ?>
 	</td>
 	<td>
-	<p><input type='submit' name='submit' value='DELETE PROFILE' onclick="if(confirm('Are you sure you want to delete your account?'))location.href='profiledel.php';">
-<input type='submit' name='submit' value='EDIT PROFILE' onclick="location.href='edituser.php';">
-	</p>
+
 <?php
 	echo '<h4><b><p>Role User: '.$data['role'].'</p></b></h4>';
 	echo '<h4><b><p>Surname: '.$data['username'].'</p></b></h4>';
 	echo '<h4><b><p>Name: '.$data['name'].'</p></b></h4>';
-	echo '<h4><b><p>Email: '.$data['email'].'</p></b></h4>';
 	echo '<h4><b><p>Date of Registration: '. date('d M Y H:i:s', $data['datereg']).'</p></b></h4>';
 	echo '<h4><b><p>Login time: '. date('d M Y H:i:s', $data['datelog']).'</p></b></h4>';		
-	$q = $database_handle->prepare("SELECT * FROM user WHERE `user` = '$_SESSION[user]'");
-	$q->execute();
-	$data = $q->fetch(PDO::FETCH_ASSOC);
-	if ($data['role'] == 'admin')
-	{
-?>	
-<input type='submit' name='submit' value='USERS LIST' onclick="location.href='admin.php';">
-<?php
-	}
-
-
 ?>
 	
 	</td>

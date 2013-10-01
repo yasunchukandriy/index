@@ -3,8 +3,8 @@
 error_reporting(E_ALL);
 $database_handle=new PDO("mysql:host=localhost;dbname=user",'root','');
 	if(!empty($_POST['login']) AND !empty($_POST['password'])) {
-	$login = trim($_POST['login']);
-	$pass = md5($_POST['password']);
+	$login = strip_tags(trim($_POST['login']));
+	$pass = strip_tags(md5($_POST['password']));
 	$datelog = time();
 	$q = $database_handle->prepare("SELECT * FROM user WHERE user = '$login'");
 	$q->execute();
