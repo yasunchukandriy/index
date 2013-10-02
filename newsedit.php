@@ -76,15 +76,21 @@ if(!empty($_GET['edit'])){
 
 	?>
 <form id='forma' action='' method='post'>
+<p align = center><strong><?php print(translate('English Version',$_SESSION['language']))?></strong></p>
 <p><?php print(translate('Title',$_SESSION['language']))?><br /><input type='text' name='title' class="form-login1" value= <?=$data["title"] ?> ></p>
 <p><?php print(translate('Text',$_SESSION['language']))?><br /><textarea rows='10' cols='45' name='text' class="form-login2"><?=$data['text']?></textarea></p>
+<p align = center><strong><?php print(translate('Ukrainian Version',$_SESSION['language']))?></strong></p>
+<p><?php print(translate('Title',$_SESSION['language']))?><br /><input type='text' name='title_ukr' class="form-login1" value= <?=$data["title_ukr"] ?> ></p>
+<p><?php print(translate('Text',$_SESSION['language']))?><br /><textarea rows='10' cols='45' name='text_ukr' class="form-login2"><?=$data['text_ukr']?></textarea></p>
 <p><input type='submit' name='submit' value='<?php print(translate('Update',$_SESSION['language']))?>'>
 <br></p></form>
 <?php
-if(!empty($_POST['title']) AND !empty($_POST['text'])) {
+if(!empty($_POST['title']) AND !empty($_POST['text']) AND !empty($_POST['text_ukr']) AND !empty($_POST['text_ukr'])) {
 	$title = strip_tags(trim($_POST['title']));
 	$text = strip_tags(trim($_POST['text']));
-	$q = $database_handle->prepare("UPDATE `news` SET  `title` =  '$title', `text` =  '$text' WHERE  `id` = $_GET[edit]");
+	$title_ukr = strip_tags(trim($_POST['title_ukr']));
+	$text_ukr = strip_tags(trim($_POST['text_ukr']));
+	$q = $database_handle->prepare("UPDATE `news` SET  `title` =  '$title', `text` =  '$text', `title_ukr` =  '$title_ukr', `text_ukr` =  '$text_ukr' WHERE  `id` = $_GET[edit]");
 	$q->execute();
 	unset($_POST);
 	echo ''.translate('News Update',$_SESSION['language']).'';

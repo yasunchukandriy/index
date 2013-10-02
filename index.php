@@ -55,6 +55,7 @@ $limit_page = ceil($all_news / 10);
 	// $this_news = ($_SESSION['current_page']-1)*10+$i+1;
 	?>
 <?php 
+		
 		$your_desired_width = 150;
 		echo '<br><p align = center><strong> '. translate('NEWS',$_SESSION['language']).'</strong></p>';
 	 	// $q = $database_handle->prepare("SELECT * FROM news ORDER BY ID");
@@ -64,11 +65,16 @@ $limit_page = ceil($all_news / 10);
 		$q -> bindParam('first', $first, PDO::PARAM_INT);
 		$q -> bindParam('last', $last, PDO::PARAM_INT);
 	 	$q->execute();	 
+	
 	 	if(!empty($_GET['id'])) {
 				$a = $_GET['id'];
 				$q = $database_handle->prepare("SELECT * FROM news WHERE id = '$a'");
 	 			$q->execute();
 	 			$data = $q->fetch(PDO::FETCH_ASSOC);
+			 	if ($_SESSION['language'] == 'Ukrainian'){
+			 		$data['title']=$data['title_ukr'];
+		            $data['text']=$data['text_ukr'];	
+			 	}
 				if (strcmp($data['id'],$a) == 0){
 				if (($data['img'])==NULL)	
 				echo '<i><b><h1 align="center">'.$data['title'].'</h1></b></i><p align="center">Added by: <a href="newsuser.php?user='. $data['user'] .'">'.$data['user'].'</a>       '. date('d M Y H:i:s', $data['date']).'</p><p align="justify">'.$data['text'].'|<a href="index.php"> Back </a>|</p>';
@@ -78,6 +84,11 @@ $limit_page = ceil($all_news / 10);
 			}
 	 	while($data = $q->fetch(PDO::FETCH_ASSOC)) 
 		{	
+		 	if ($_SESSION['language'] == 'Ukrainian'){
+		 		$data['title']=$data['title_ukr'];
+	            $data['text']=$data['text_ukr'];	
+		 	}
+
 			if (strlen($data['text']) < $your_desired_width) {
 				if (($data['img'])==NULL)	
 				echo '<i><b><h1 align="center"><a href="index.php?id='.$data['id'].'">'.$data['title'].'</a></h1></b></i><p align="center">'. translate('Added by:',$_SESSION['language']).'<a href="newsuser.php?user='. $data['user'] .'">'.$data['user'].'</a>       '. date('d M Y H:i:s', $data['date']) .'</p><p align="center">'.$data['text'].'</i></p>';
