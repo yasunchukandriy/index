@@ -37,14 +37,18 @@ error_reporting(E_ALL);
 <a href=<?php print "addnews.php?lang=Ukrainian&" . http_build_query($_GET) ?>><img src="/img/flag_ukr.gif"></a>
 <a href="index.php"><img src="img/f_4b1c3b607c0f6.jpg" width="1000"></a></div>
 <div id="left">
-	<br><p align = center><strong><?php print(translate('ADD NEWS',$_SESSION['language']))?></strong>
+	<p align = center><strong><?php print(translate('ADD NEWS',$_SESSION['language']))?></strong>
+	<p align = center><strong><?php print(translate('English Version',$_SESSION['language']))?></strong></p>
 	<form id='forma' action='' method='post' enctype='multipart/form-data'>
+	<p><?php print(translate('Add a picture',$_SESSION['language']))?> <br /> <input type='file' name='filename'></p>
 	<p><?php print(translate('Title',$_SESSION['language']))?><br /><input type='text' name='title' class="form-login1"></p>
-	<p><?php print(translate('Text',$_SESSION['language']))?><br /><textarea rows='10' cols='45' name='text' class="form-login2"></textarea></p> <?php print(translate('Add a picture',$_SESSION['language']))?> <br /> <input type='file' name='filename'>
-	<br>
+	<p><?php print(translate('Text',$_SESSION['language']))?><br /><textarea rows='10' cols='45' name='text' class="form-login2"></textarea></p> 
+	<p align = center><strong><?php print(translate('Ukrainian Version',$_SESSION['language']))?></strong></p>
+	<p><?php print(translate('Title',$_SESSION['language']))?><br /><input type='text' name='title_ukr' class="form-login1"></p>
+	<p><?php print(translate('Text',$_SESSION['language']))?><br /><textarea rows='10' cols='45' name='text_ukr' class="form-login2"></textarea></p>
 	<p><input type='submit' name='submit' value='<?php print(translate('Add',$_SESSION['language']))?>'><br></p></form>
 	<?
-	if(!empty($_POST['title']) AND !empty($_POST['text']) AND $_FILES["filename"]["size"] < 1024*3*1024)
+	if(!empty($_POST['title_ukr']) AND !empty($_POST['title']) AND !empty($_POST['text']) AND !empty($_POST['text_ukr']) AND $_FILES["filename"]["size"] < 1024*3*1024)
 	{	
 	 if(is_uploaded_file($_FILES["filename"]["tmp_name"]))
    {
@@ -55,10 +59,12 @@ error_reporting(E_ALL);
    }
    	$title = strip_tags(trim($_POST['title']));
 	$text = strip_tags(trim($_POST['text']));
+	$title_ukr = strip_tags(trim($_POST['title_ukr']));
+	$text_ukr = strip_tags(trim($_POST['text_ukr']));
 	$filename = $_FILES["filename"]["name"];
 	$user = $_SESSION['user'];
 	$date = time();
-	$insert = $database_handle->exec("INSERT INTO news (`title`, `text`, `img`, `user`, `date`) VALUES ('$title' , '$text', '$filename', '$user', '$date')");
+	$insert = $database_handle->exec("INSERT INTO news (`title`, `text`, `img`, `user`, `date`,`title_ukr`,`text_ukr`) VALUES ('$title' , '$text', '$filename', '$user', '$date','$title_ukr','$text_ukr' )");
 	unset($_POST);
 	}
 	  	   ?>

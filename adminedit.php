@@ -32,15 +32,18 @@ if(empty($_SESSION['user'])) {
 </head>
 <body text="white" link="red" vlink="red" alink="red" >
 <div id="maket">
-<div id="header"><a href="index.php"><img src="img/f_4b1c3b607c0f6.jpg" width="1000"></a></div>
+<div id="header">
+<a href=<?php print "adminedit.php?lang=English&" . http_build_query($_GET) ?>><img src="/img/flag-en0.gif"></a>
+<a href=<?php print "adminedit.php?lang=Ukrainian&" . http_build_query($_GET) ?>><img src="/img/flag_ukr.gif"></a>
+<a href="index.php"><img src="img/f_4b1c3b607c0f6.jpg" width="1000"></a></div>
 <div id="left">
 <?php
 	$q = $database_handle->prepare("SELECT * FROM `user` WHERE `id` = '$_GET[edit]'");
 	$q->execute();
 	$data = $q->fetch(PDO::FETCH_ASSOC);
 ?>
-	<br><p align = center><strong>Editing User: <?php print $data['user'];?></strong>
-	<p>Select a user role:</p>
+	<br><p align = center><strong><?php print(translate('Editing User',$_SESSION['language']))?>: <?php print $data['user'];?></strong>
+	<p><?php print(translate('Select a user role',$_SESSION['language']))?>:</p>
 	<form id='forma' action='' method='POST' enctype='multipart/form-data'>
 	<SELECT name="role">
 	<OPTION value=<?=$data['role'] ?>><?=$data['role'] ?>
@@ -49,10 +52,10 @@ if(empty($_SESSION['user'])) {
 	<OPTION value="user">User
 	<OPTION value="blocked">Blocked
 	</SELECT>
-	<p>Your surname<br /><input type='text' name="surname" class="form-login1" value= <?=$data['username'] ?>></p>
-	<p>Your name<br /><input name="name" class="form-login2" value= <?=$data['name'] ?>></p> Edit Avatar <br /> <input type='file' name='filename'>
-	<p>Change your email<br /><input type='text' name="changeemail" class="form-login1" value= <?=$data['email'] ?>></p>
-	<p><input type='submit' name='submit' value='Add'><br></p></form>
+	<p><?php print(translate('Your surname',$_SESSION['language']))?><br /><input type='text' name="surname" class="form-login1" value= <?=$data['username'] ?>></p>
+	<p><?php print(translate('Your name',$_SESSION['language']))?><br /><input name="name" class="form-login2" value= <?=$data['name'] ?>></p><?php print(translate('Edit Avatar',$_SESSION['language']))?>  <br /> <input type='file' name='filename'>
+	<p><?php print(translate('Change your email',$_SESSION['language']))?><br /><input type='text' name="changeemail" class="form-login1" value= <?=$data['email'] ?>></p>
+	<p><input type='submit' name='submit' value='<?php print(translate('Add',$_SESSION['language']))?>'><br></p></form>
 <?php
 	if(!empty($_POST['role']) AND !empty($_POST['surname']) AND !empty($_POST['name']) AND !empty($_POST['changeemail']) AND ($_FILES["filename"]["size"] < 1024*5*1024)) {
 	if(is_uploaded_file($_FILES["filename"]["tmp_name"])){
@@ -68,27 +71,27 @@ if(empty($_SESSION['user'])) {
 	$role = strip_tags($_POST['role']);
 	$q = $database_handle->prepare("UPDATE `user` SET `email` = '$email', `username` = '$surname', `name` = '$name', `avatar` = '$filename', `role` = '$role' WHERE `id` = '$_GET[edit]'");
 	$q->execute();
-		if($q) print('Data add!');
+		if($q) print(translate('Data add!',$_SESSION['language']));
 		exit("<meta http-equiv='refresh' content='0; url= 'admin.php?del=<?php print $data[id]; ?>'>");
 }
 
 ?>
-<br><p><strong>CHANGE PASSWORD</strong>
+<br><p><strong><?php print(translate('CHANGE PASSWORD',$_SESSION['language']))?></strong>
 <form id='forma' action='' method='POST' enctype='multipart/form-data'>
-	<p>New password<br /><input type='password' name="changepassword" class="form-login1" ></p>
-	<p>Repeat new password<br /><input type='password' name="changepassword2" class="form-login1" ></p>
-	<p><input type='submit' name='submit' value='Change'><br></p></form>
+	<p><?php print(translate('New password',$_SESSION['language']))?><br /><input type='password' name="changepassword" class="form-login1" ></p>
+	<p><?php print(translate('Repeat new password',$_SESSION['language']))?><br /><input type='password' name="changepassword2" class="form-login1" ></p>
+	<p><input type='submit' name='submit' value='<?php print(translate('Change',$_SESSION['language']))?>'><br></p></form>
 <?php
 if(!empty($_POST['changepassword']) AND !empty($_POST['changepassword2'])){
 $pass = strip_tags(md5(trim($_POST['changepassword'])));
 if ($_POST['changepassword'] == $_POST['changepassword2']){
 		$q = $database_handle->prepare("UPDATE `user` SET `pass` = '$pass' WHERE `id` = '$_GET[edit]'");
 		$q->execute();
-		if($q) print('Password changed');
+		if($q) print(''.translate('Password changed',$_SESSION['language']).'');
 		exit("<meta http-equiv='refresh' content='0; url= 'admin.php?del=<?php print $data[id]; ?>'>");
 		}
 	else {
-	print('Passwords do not match');
+	print(''.translate('Passwords do not match',$_SESSION['language']).'');
 	exit();
 }
 }
