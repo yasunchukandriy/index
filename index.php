@@ -80,7 +80,37 @@ $limit_page = ceil($all_news / 10);
 				echo '<i><b><h1 align="center">'.$data['title'].'</h1></b></i><p align="center">Added by: <a href="newsuser.php?user='. $data['user'] .'">'.$data['user'].'</a>       '. date('d M Y H:i:s', $data['date']).'</p><p align="justify">'.$data['text'].'|<a href="index.php"> Back </a>|</p>';
 			else
 				echo '<i><b><h1 align="center">'.$data['title'].'</h1></b></i><p align="center">Added by: <a href="newsuser.php?user='. $data['user'] .'">'.$data['user'].'</a>       '. date('d M Y H:i:s', $data['date']).'</p><p align="center"><img src="http://'.$_SERVER['HTTP_HOST'].'/img/'.$data['img'].'" height="400" width="600"></p><p align="justify">'.$data['text'].'|<a href="index.php"> Back </a>|</p>';
+	?>
+	<form id='forma' action='' method='post' enctype='multipart/form-data'>
+	<p align = center><strong><?php print(translate('Comments',$_SESSION['language']))?></strong></p>
+	<p><?php print(translate('Topic',$_SESSION['language']))?><br /><input type='text' name='topic_comments' class="form-login1"></p>
+	<p><?php print(translate('Text',$_SESSION['language']))?><br /><textarea rows='10' cols='45' name='text_comments' class="form-login2" required></textarea></p> 
+	<p><input type='submit' name='submit2' value='<?php print(translate('Add',$_SESSION['language']))?>'><br></p></form>
+				<?php
+	if (!empty($_POST['submit2'])) {
+		if (!empty($_POST['topic_comments'])) {
+			$topic_comments = strip_tags(trim($_POST['topic_comments']));
+		}
+		else {
+			$topic_comments = strip_tags(trim(substr($_POST['text_comments'], 0, 15)));
+		}
+		$text_comments = strip_tags(trim($_POST['text_comments']));
+		$user_comments = $_SESSION['user'];
+		$date = time(); 
+		$idnews=$_GET['id'];
+		$comments_insert = $database_handle->exec("INSERT INTO comments (`idnews`, `user_comments`, `topic_comments`, `text_comments`, `create`) VALUES ('$idnews' , '$user_comments', '$topic_comments', '$text_comments', '$date')");
+		if ($comments_insert) echo "Comments Add";
+	}
+
+		$qu = $database_handle->prepare("SELECT * FROM comments WHERE idnews = '$a'");
+		$qu->execute();
+	while($mas = $qu->fetch(PDO::FETCH_ASSOC)){
+	echo '<h1 align="center">'.$mas['topic_comments'].'</h1>';
+	echo '<p align="center">'. translate('Added by:',$_SESSION['language']).'<a href="newsuser.php?user='. $mas['user_comments'] .'">'.$mas['user_comments'].'</a>';
+	echo ''. date('d M Y H:i:s', $mas['create']) .'</p>';
+	echo '<p align="center">'.$mas['text_comments'].'</i></p>';		
 				}
+			}
 			}
 	 	while($data = $q->fetch(PDO::FETCH_ASSOC)) 
 		{	

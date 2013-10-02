@@ -47,7 +47,7 @@ error_reporting(E_ALL);
 	<p><?php print(translate('Title',$_SESSION['language']))?><br /><input type='text' name='title_ukr' class="form-login1"></p>
 	<p><?php print(translate('Text',$_SESSION['language']))?><br /><textarea rows='10' cols='45' name='text_ukr' class="form-login2"></textarea></p>
 	<p><input type='submit' name='submit' value='<?php print(translate('Add',$_SESSION['language']))?>'><br></p></form>
-	<?
+	<?php
 	if(!empty($_POST['title_ukr']) AND !empty($_POST['title']) AND !empty($_POST['text']) AND !empty($_POST['text_ukr']) AND $_FILES["filename"]["size"] < 1024*3*1024)
 	{	
 	 if(is_uploaded_file($_FILES["filename"]["tmp_name"]))
