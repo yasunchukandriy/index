@@ -16,5 +16,4 @@ unset($_GET["lang"]);
         else
         return $data["Ukrainian"];
     }
-
 ?>

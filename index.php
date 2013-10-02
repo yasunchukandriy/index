@@ -1,8 +1,10 @@
 ﻿<?php
 // session_start();
 error_reporting(E_ALL);
+
  ini_set("include_path",getenv("DOCUMENT_ROOT")."/function");
     include "translate.php";
+
 $database_handle=new PDO("mysql:host=localhost;dbname=user",'root','');
 if (!empty($_POST['current_page'])) {
 	$_SESSION['current_page'] = $_POST['current_page'];
@@ -10,13 +12,19 @@ if (!empty($_POST['current_page'])) {
 else {
 	$_SESSION['current_page'] = 1;
 }
+if (!empty($_POST['current_comm'])) {
+	$_SESSION['current_comm'] = $_POST['current_comm'];
+	}
+else {
+	$_SESSION['current_comm'] = 1;
+}
 $first=0;
 $last = 100000;
-$news = $database_handle -> prepare("SELECT * FROM news LIMIT :first, :last ");
-$news -> bindParam('first', $first, PDO::PARAM_INT);
-$news -> bindParam('last', $last, PDO::PARAM_INT);
-$news -> execute();
-$all_news = $news -> rowCount();
+$data = $database_handle -> prepare("SELECT * FROM news LIMIT :first, :last ");
+$data -> bindParam('first', $first, PDO::PARAM_INT);
+$data -> bindParam('last', $last, PDO::PARAM_INT);
+$data -> execute();
+$all_news = $data -> rowCount();
 $limit_page = ceil($all_news / 10);
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
@@ -43,6 +51,12 @@ $limit_page = ceil($all_news / 10);
 <a href="index.php"><img src="img/f_4b1c3b607c0f6.jpg" width="1000"></a>
 </div>
 <div id="left">
+<?php
+
+if (empty($_GET['id']))
+{
+	?>
+
 <form method = "post">
 		  <select name = "current_page">
 		    <?php for($i = 1; $i < $limit_page+1; $i++) {?>
@@ -50,7 +64,9 @@ $limit_page = ceil($all_news / 10);
 		  </select>
 		  <input type = "submit" value="<?php print(translate('Move',$_SESSION['language']))?>">
 		</form>
+
 		<?php
+	}
 	// for($i=0; $i < $limit; $i++):
 	// $this_news = ($_SESSION['current_page']-1)*10+$i+1;
 	?>
@@ -82,9 +98,9 @@ $limit_page = ceil($all_news / 10);
 				echo '<i><b><h1 align="center">'.$data['title'].'</h1></b></i><p align="center">Added by: <a href="newsuser.php?user='. $data['user'] .'">'.$data['user'].'</a>       '. date('d M Y H:i:s', $data['date']).'</p><p align="center"><img src="http://'.$_SERVER['HTTP_HOST'].'/img/'.$data['img'].'" height="400" width="600"></p><p align="justify">'.$data['text'].'|<a href="index.php"> Back </a>|</p>';
 	?>
 	<form id='forma' action='' method='post' enctype='multipart/form-data'>
-	<p align = center><strong><?php print(translate('Comments',$_SESSION['language']))?></strong></p>
+	<h2><p align = center><?php print(translate('Comments',$_SESSION['language']))?></p></h2>
 	<p><?php print(translate('Topic',$_SESSION['language']))?><br /><input type='text' name='topic_comments' class="form-login1"></p>
-	<p><?php print(translate('Text',$_SESSION['language']))?><br /><textarea rows='10' cols='45' name='text_comments' class="form-login2" required></textarea></p> 
+	<p><?php print(translate('Text',$_SESSION['language']))?><br /><textarea rows='10' cols='45' name='text_comments' class="form-login2" required placeholder="<?php print(translate('Enter comments',$_SESSION['language']))?>"></textarea></p> 
 	<p><input type='submit' name='submit2' value='<?php print(translate('Add',$_SESSION['language']))?>'><br></p></form>
 				<?php
 	if (!empty($_POST['submit2'])) {
@@ -101,14 +117,42 @@ $limit_page = ceil($all_news / 10);
 		$comments_insert = $database_handle->exec("INSERT INTO comments (`idnews`, `user_comments`, `topic_comments`, `text_comments`, `create`) VALUES ('$idnews' , '$user_comments', '$topic_comments', '$text_comments', '$date')");
 		if ($comments_insert) echo "Comments Add";
 	}
-
+	
 		$qu = $database_handle->prepare("SELECT * FROM comments WHERE idnews = '$a'");
 		$qu->execute();
+	
+	?>	
+
+		
+<?php
+		
 	while($mas = $qu->fetch(PDO::FETCH_ASSOC)){
-	echo '<h1 align="center">'.$mas['topic_comments'].'</h1>';
+?>
+<table>
+<tr>
+<td width=500>
+<?php
+	echo '<h1 align=center><font fase=arial black>'.$mas['topic_comments'].'</font></h1>';
 	echo '<p align="center">'. translate('Added by:',$_SESSION['language']).'<a href="newsuser.php?user='. $mas['user_comments'] .'">'.$mas['user_comments'].'</a>';
 	echo ''. date('d M Y H:i:s', $mas['create']) .'</p>';
 	echo '<p align="center">'.$mas['text_comments'].'</i></p>';		
+?>
+</td>
+<td>
+<?php
+$q = $database_handle->prepare("SELECT * FROM user WHERE `user` = '$_SESSION[user]'");
+	$q->execute();
+	$role = $q->fetch(PDO::FETCH_ASSOC);
+if ($role['role']=='admin'){
+	?>
+<input type='submit' name='submit' value='<?php print(translate('DELETE COMMENT',$_SESSION['language']))?>' onclick="if(confirm('<?php print(translate('Are you sure you want to delete this comment?',$_SESSION['language']))?>'))location.href='delcomment.php?del=<?php print $mas['idcomment']; ?>'">
+<?php
+}
+?>
+</td>
+</tr>
+</table>
+<?php
 				}
 			}
 			}
