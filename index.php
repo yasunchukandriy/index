@@ -87,12 +87,25 @@ if (empty($_GET['id']))
 		            $data['text']=$data['text_ukr'];	
 			 	}
 				if (strcmp($data['id'],$a) == 0){
-				if (($data['img'])==NULL)	
+				$q = $database_handle->prepare("SELECT * FROM user WHERE `user` = '$_SESSION[user]'");
+				$q->execute();
+				$role = $q->fetch(PDO::FETCH_ASSOC);
+				if (($data['img'])==NULL)	{
 				echo '<i><b><h1 align="center">'.$data['title'].'</h1></b></i><p align="center">Added by: <a href="newsuser.php?user='. $data['user'] .'">'.$data['user'].'</a>       '. date('d M Y H:i:s', $data['date']).'</p><p align="justify">'.$data['text'].'|<a href="index.php"> Back </a>|</p>';
-			else
+				if ($role['role']=='admin'){
+				?>
+				<input type='submit' name='submit' value='<?php print(translate('DELETE ALL VOTE',$_SESSION['language']))?>' onclick="if(confirm('<?php print(translate('Are you sure you want to delete all voice?',$_SESSION['language']))?>'))location.href='delvote_all.php?id=<?php print $data['id']; ?>'">
+				<?php
+				}
+			}
+			else {
 				echo '<i><b><h1 align="center">'.$data['title'].'</h1></b></i><p align="center">Added by: <a href="newsuser.php?user='. $data['user'] .'">'.$data['user'].'</a>       '. date('d M Y H:i:s', $data['date']).'</p><p align="center"><img src="http://'.$_SERVER['HTTP_HOST'].'/img/'.$data['img'].'" height="400" width="600"></p><p align="justify">'.$data['text'].'|<a href="index.php"> Back </a>|</p>';
-	?>
-<?php
+			if ($role['role']=='admin'){
+			?>
+				<input type='submit' name='submit' value='<?php print(translate('DELETE ALL VOTE',$_SESSION['language']))?>' onclick="if(confirm('<?php print(translate('Are you sure you want to delete all voice?',$_SESSION['language']))?>'))location.href='delvote_all.php?id=<?php print $data['id']; ?>'">
+				<?php
+			}
+		}
 if(!empty($_SESSION['user'])) {
 $que = $database_handle->prepare("SELECT * FROM voting WHERE idnews='$_GET[id]' AND user='$_SESSION[user]'");
 $que->execute();
@@ -112,7 +125,7 @@ $mark_s = $que->fetch(PDO::FETCH_ASSOC);
 	<?php
 }
 else {
-echo ''.translate('Your mark',$_SESSION['language']).': '. $mark_s['mark'].' ';
+echo '<p>'.translate('Your mark',$_SESSION['language']).': '. $mark_s['mark'].' </p>';
 ?>
 <input type='submit' name='submit' value='<?php print(translate('DELETE VOTE',$_SESSION['language']))?>' onclick="if(confirm('<?php print(translate('Are you sure you want to delete this comment?',$_SESSION['language']))?>'))location.href='delvote.php?delvote=<?php print $mark_s['id']; ?>'">
 <?php
@@ -152,11 +165,6 @@ echo ''.translate('Your mark',$_SESSION['language']).': '. $mark_s['mark'].' ';
 }
 		$qu = $database_handle->prepare("SELECT * FROM comments WHERE idnews = '$a'");
 		$qu->execute();
-	?>	
-
-	
-<?php
-		
 	while($mas = $qu->fetch(PDO::FETCH_ASSOC)){
 ?>
 
@@ -188,7 +196,6 @@ if ($role['role']=='admin'){
 </tr>
 </table>
 <?php
-
 				}
 			}
 			}
@@ -200,19 +207,19 @@ if ($role['role']=='admin'){
 		 	}
 		 	$quer = $database_handle->prepare("SELECT * FROM voting WHERE idnews='{$data['id']}'");
 			$quer->execute();
-			$mark_mas = $quer->fetch(PDO::FETCH_ASSOC);
+			$mark_mas = $quer->fetchAll();
 			$avg = 0;
 			$sum = 0;
-		if (!empty($mark_mas)) {
-   		foreach ($mark_mas as $value) {
-     	$sum += $value['mark'];   
-   		}
-   		print_r($sum);
-   		$avg = $sum / count($mark_mas);
-		}
-		if ($avg == 0){
-    	$avg = translate('For metrial Nobody has voted!',$_SESSION['language']);
-		}
+			if (!empty($mark_mas)) {
+	   		foreach ($mark_mas as $value) {
+	     		$sum += $value['mark'];   
+	   		}
+	   		$avg = $sum / count($mark_mas);
+	   		$avg = sprintf(translate('Avg',$_SESSION['language']) . " %.2f", $avg);
+			}
+			if (empty($avg)){
+	    	$avg = translate('For metrial Nobody has voted!',$_SESSION['language']);
+			}
 		
 			
 			if (strlen($data['text']) < $your_desired_width) {
