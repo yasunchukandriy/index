@@ -1,7 +1,8 @@
-body, html {
+body{
 margin:15px;
 padding:0px;
-
+background-image: url(img/45.jpg); 
+background-color: #c7b39b;
 }
 #maket {
 width:1000px;
@@ -82,4 +83,29 @@ ul#my_menu li a span{
 	font-size: 18px; 
 	padding: 10px 0 0 22px;
 	display: block;	
+}
+.title {
+	font-weight:bold;
+	font-family: Verdana, Arial, Helvetica, sans-serif; 
+    font-size: 30pt;
+	text-align: center;
+}
+.added_by {
+	font-family: Verdana, Arial, Helvetica, sans-serif; 
+    font-size: 10pt;
+	text-align: center;
+}
+.data {
+	font-family: Verdana, Arial, Helvetica, sans-serif; 
+    font-size: 10pt;
+	text-align: justify;
+}
+.img {
+	text-align:center;
+
+}
+.data_h {
+	font-family: Verdana, Arial, Helvetica, sans-serif; 
+    font-size: 10pt;
+	text-align: center;
 }

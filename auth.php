@@ -29,4 +29,3 @@ $database_handle=new PDO("mysql:host=localhost;dbname=user",'root','');
 	echo '<br><a href="index.php">Repeat authorization</a>';
 		 }
 ?> 
-
